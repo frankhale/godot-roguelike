@@ -9,12 +9,9 @@ extents = Vector2( 16, 16 )
 [node name="Player" type="Node2D"]
 z_index = 10
 script = ExtResource( 2 )
-
-[node name="Sprite" type="Sprite" parent="."]
-texture = ExtResource( 1 )
-region_enabled = true
-region_rect = Rect2( 0, 0, 32, 32 )
-region_filter_clip = true
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="."]
 collision_layer = 0
@@ -28,3 +25,9 @@ cast_to = Vector2( 0, 16 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 32, 32 )
+region_filter_clip = true

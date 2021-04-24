@@ -6,6 +6,9 @@
 [sub_resource type="RectangleShape2D" id=1]
 
 [node name="Coin" type="Node2D"]
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )

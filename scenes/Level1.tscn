@@ -5,6 +5,7 @@
 [ext_resource path="res://scenes/Level1.gd" type="Script" id=3]
 
 [node name="Level1" type="Node2D"]
+z_as_relative = false
 script = ExtResource( 3 )
 
 [node name="TileMap" type="TileMap" parent="."]
