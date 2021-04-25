@@ -13,6 +13,9 @@ __meta__ = {
 "_edit_group_": true
 }
 
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+
 [node name="KinematicBody2D" type="KinematicBody2D" parent="."]
 collision_layer = 0
 
@@ -23,11 +26,7 @@ shape = SubResource( 1 )
 enabled = true
 cast_to = Vector2( 0, 16 )
 
-[node name="Camera2D" type="Camera2D" parent="."]
-current = true
-
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 0, 0, 32, 32 )
-region_filter_clip = true
