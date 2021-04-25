@@ -15,7 +15,7 @@ func _unhandled_input(event):
 
 func move(dir):	
 	ray.cast_to = inputs[dir] * tile_size
-	ray.force_raycast_update()
+	ray.force_raycast_update()	
 	if !ray.is_colliding():
 		var collision = move_and_collide(inputs[dir] * tile_size)
 	else:

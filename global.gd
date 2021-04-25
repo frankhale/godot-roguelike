@@ -11,14 +11,14 @@ func _ready():
 	Global.connect("play_music", self, "play_music")
 	music_player = AudioStreamPlayer.new()	
 	add_child(music_player)
-	
-onready var HUD_score_label = get_tree().get_current_scene().get_node("HUD/Score")
 
 func update_score(value):	
-	player_score += value
-	var ps = "player score = %s"
-	print(ps % player_score)	
-	HUD_score_label.emit_signal("update_score_label", player_score)
+	var HUD_score_label = get_tree().get_current_scene().get_node("HUD/Score")
+	if(HUD_score_label != null):
+		player_score += value
+		var ps = "player score = %s"
+		print(ps % player_score)
+		HUD_score_label.emit_signal("update_score_label", player_score)
 
 func play_music(path):
 	print("playing music")

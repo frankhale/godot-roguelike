@@ -11,7 +11,7 @@ config_version=4
 [application]
 
 config/name="godot-roguelike"
-run/main_scene="res://scenes/Level1.tscn"
+run/main_scene="res://scenes/Title.tscn"
 config/icon="res://icon.png"
 
 [autoload]
