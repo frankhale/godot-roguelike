@@ -16,7 +16,7 @@ func _ready():
 		var random_floor_tile = rand_generate.randi_range(1,floor_tiles.size())
 		var coin = coin_resource.instance()
 		coin.position = coin.position.snapped(Vector2(tile_size, tile_size))
-		coin.position = tilemap.map_to_world(Vector2(floor_tiles[random_floor_tile].x, floor_tiles[random_floor_tile].y))
+		coin.position = tilemap.map_to_world(floor_tiles[random_floor_tile])
 		coin.position += Vector2.ONE * tile_size/2
 		self.add_child(coin)
 
