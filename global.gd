@@ -1,8 +1,9 @@
 extends Node
 
 var tile_size = 32
-var player_score = 0
 var sounds = {}
+
+@onready var _player_instance = load("res://scenes/player.tscn").instantiate()
 
 signal update_player_score(value)
 signal play_music(path)
@@ -14,11 +15,8 @@ func _ready():
 		"walk": create_audio_player("res://assets/sounds/walk.wav")
 	}
 
-	for sound in sounds:
-		sounds[sound].play()
-
 	connect("update_player_score", handle_update_player_score)
-	connect("play_music", handle_play_music)	
+	connect("play_music", handle_play_music)
 
 func create_audio_player(path):
 	var music_player = AudioStreamPlayer.new()
@@ -29,15 +27,10 @@ func create_audio_player(path):
 	return music_player
 	
 func handle_update_player_score(value):
-	var HUD_score_label = get_tree().get_current_scene().get_node("HUD/PlayerScoreLabel")
-	if(HUD_score_label != null):
-		player_score += value
-		#var ps = "player score = %s"
-		#print(ps % player_score)
-		HUD_score_label.emit_signal("update_score_label", player_score)
+	_player_instance.emit_signal("add_to_player_score", value)
 
 func handle_play_music(path):
-	#print("Playing: %s" % path)
+	print("Playing: %s" % path)
 	sounds[path].play()
 
 func _get_floor_tiles(tilemap):
@@ -54,27 +47,25 @@ func _get_floor_tiles(tilemap):
 	return map_floor_tiles
 
 func spawn_player(scene, tilemap):
-	var map_floor_tiles = _get_floor_tiles(tilemap)
-	var player_scene = load("res://scenes/player.tscn")
+	var map_floor_tiles = _get_floor_tiles(tilemap)	
 	var rand_generate = RandomNumberGenerator.new()
-	rand_generate.randomize()	
-	var random_floor_tile = rand_generate.randi_range(1,map_floor_tiles.size()-1)
+	rand_generate.randomize()
+	var random_floor_tile = rand_generate.randi_range(1,map_floor_tiles.size()-1)	
+	_player_instance.position = _player_instance.position.snapped(Vector2(tile_size, tile_size))
+	_player_instance.position = tilemap.map_to_local(map_floor_tiles[random_floor_tile])
 	map_floor_tiles.remove_at(random_floor_tile)
-	var player = player_scene.instantiate()
-	player.position = player.position.snapped(Vector2(tile_size, tile_size))
-	player.position = tilemap.map_to_local(map_floor_tiles[random_floor_tile])
-	scene.add_child(player)
+	scene.add_child(_player_instance)
 
 func spawn_coins(scene, tilemap, num_coins):
 	var map_floor_tiles = _get_floor_tiles(tilemap)
 	var coin_scene = load("res://scenes/coin.tscn")
 	var rand_generate = RandomNumberGenerator.new()
 	rand_generate.randomize()
-		
+	
 	for _c in range(num_coins):
 		var random_floor_tile = rand_generate.randi_range(1,map_floor_tiles.size()-1)
-		map_floor_tiles.remove_at(random_floor_tile)
 		var coin = coin_scene.instantiate()
 		coin.position = coin.position.snapped(Vector2(tile_size, tile_size))
 		coin.position = tilemap.map_to_local(map_floor_tiles[random_floor_tile])
+		map_floor_tiles.remove_at(random_floor_tile)
 		scene.add_child(coin)

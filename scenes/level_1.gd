@@ -4,4 +4,4 @@ extends Node2D
 
 func _ready():
 	Global.spawn_player(self, tilemap)
-	Global.spawn_coins(self, tilemap, 25)
+	Global.spawn_coins(self, tilemap, 10)

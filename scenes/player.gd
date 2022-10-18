@@ -1,5 +1,14 @@
 extends CharacterBody2D
 
+var player_score = 0
+var tile_size = 32
+var inputs = {
+	"ui_right": Vector2.RIGHT,
+	"ui_left": Vector2.LEFT,
+	"ui_up": Vector2.UP,
+	"ui_down": Vector2.DOWN
+}
+
 @onready var ray : RayCast2D = $RayCast2D
 @onready var tilemap : TileMap = get_tree().get_current_scene().get_node("TileMap") 
 @onready var wall_tile_coords = [
@@ -8,13 +17,19 @@ extends CharacterBody2D
 	Vector2i(3,4)
 ]
 
-var tile_size = 32
-var inputs = {
-	"ui_right": Vector2.RIGHT,
-	"ui_left": Vector2.LEFT,
-	"ui_up": Vector2.UP,
-	"ui_down": Vector2.DOWN
-}
+signal add_to_player_score(value)
+
+func _ready():
+	connect("add_to_player_score", _handle_add_to_player_score)
+	_handle_add_to_player_score(player_score)
+
+func _handle_add_to_player_score(value : int):
+	player_score += value
+	#var ps = "player score = %s"
+	#print(ps % player_score)
+	var HUD_score_label = get_tree().get_current_scene().get_node("HUD/PlayerScoreLabel")
+	if(HUD_score_label != null):
+		HUD_score_label.emit_signal("update_score_label", player_score)
 
 func _unhandled_input(event):
 	for dir in inputs.keys():
