@@ -42,32 +42,41 @@ func handle_play_music(path):
 	print("Playing: %s" % path)
 	sounds[path].play()
 
-func spawn_coins(scene, tilemap, num_coins):
+func _get_floor_tiles(tilemap):
 	var floor_tiles = [ 
 		Vector2i(10, 4) 
 	]
 	var map_floor_tiles = []
-	var rand_generate = RandomNumberGenerator.new()
-	rand_generate.randomize()
-	var coin_resource = load("res://scenes/coin.tscn")
-	# (10, 4) is the atlas coord for floor tile
 	var used_tiles = tilemap.get_used_cells(0)
 
 	for tile in used_tiles:
 		if floor_tiles.has(tilemap.get_cell_atlas_coords(0, tile)):
 			map_floor_tiles.push_back(tile)
-		#else:
-		#	print("Not a floor tile")
+	
+	return map_floor_tiles	
+
+func spawn_player(scene, tilemap):
+	var map_floor_tiles = _get_floor_tiles(tilemap)
+	var player_scene = load("res://scenes/player.tscn")	
+	var rand_generate = RandomNumberGenerator.new()
+	rand_generate.randomize()	
+	var random_floor_tile = rand_generate.randi_range(1,map_floor_tiles.size()-1)
+	map_floor_tiles.remove_at(random_floor_tile)
+	var player = player_scene.instantiate()
+	player.position = player.position.snapped(Vector2(tile_size, tile_size))
+	player.position = tilemap.map_to_local(map_floor_tiles[random_floor_tile])
+	scene.add_child(player)
+
+func spawn_coins(scene, tilemap, num_coins):
+	var map_floor_tiles = _get_floor_tiles(tilemap)
+	var coin_scene = load("res://scenes/coin.tscn")
+	var rand_generate = RandomNumberGenerator.new()
+	rand_generate.randomize()
 		
-	print("map_floor_tiles.size(): ", map_floor_tiles.size())
 	for _c in range(num_coins):
 		var random_floor_tile = rand_generate.randi_range(1,map_floor_tiles.size()-1)
-		#print("---")
-		#print("map_floor_tiles.size() before coin spawn: ", map_floor_tiles.size())		
-		#print(map_floor_tiles.has(map_floor_tiles[random_floor_tile]))
 		map_floor_tiles.remove_at(random_floor_tile)
-		#print("map_floor_tiles.size() after coin spawn: ", map_floor_tiles.size())
-		var coin = coin_resource.instantiate()
+		var coin = coin_scene.instantiate()
 		coin.position = coin.position.snapped(Vector2(tile_size, tile_size))
 		coin.position = tilemap.map_to_local(map_floor_tiles[random_floor_tile])
 		scene.add_child(coin)
