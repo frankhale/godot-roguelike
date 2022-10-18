@@ -1,8 +1,9 @@
 extends Node
 
-var tile_size = 32
 var sounds = {}
+var map_floor_tiles = []
 
+@export var tile_size = 32
 @onready var _player_instance = load("res://scenes/player.tscn").instantiate()
 
 signal update_player_score(value)
@@ -30,14 +31,16 @@ func handle_update_player_score(value):
 	_player_instance.emit_signal("add_to_player_score", value)
 
 func handle_play_music(path):
-	print("Playing: %s" % path)
+	#print("Playing: %s" % path)
 	sounds[path].play()
 
 func _get_floor_tiles(tilemap):
+	if map_floor_tiles.size() > 0:
+		return map_floor_tiles
+	
 	var floor_tiles = [ 
 		Vector2i(10, 4) 
-	]
-	var map_floor_tiles = []
+	]	
 	var used_tiles = tilemap.get_used_cells(0)
 
 	for tile in used_tiles:
@@ -47,7 +50,7 @@ func _get_floor_tiles(tilemap):
 	return map_floor_tiles
 
 func spawn_player(scene, tilemap):
-	var map_floor_tiles = _get_floor_tiles(tilemap)	
+	map_floor_tiles = _get_floor_tiles(tilemap)
 	var rand_generate = RandomNumberGenerator.new()
 	rand_generate.randomize()
 	var random_floor_tile = rand_generate.randi_range(1,map_floor_tiles.size()-1)	
@@ -57,7 +60,7 @@ func spawn_player(scene, tilemap):
 	scene.add_child(_player_instance)
 
 func spawn_coins(scene, tilemap, num_coins):
-	var map_floor_tiles = _get_floor_tiles(tilemap)
+	map_floor_tiles = _get_floor_tiles(tilemap)
 	var coin_scene = load("res://scenes/coin.tscn")
 	var rand_generate = RandomNumberGenerator.new()
 	rand_generate.randomize()
@@ -69,3 +72,17 @@ func spawn_coins(scene, tilemap, num_coins):
 		coin.position = tilemap.map_to_local(map_floor_tiles[random_floor_tile])
 		map_floor_tiles.remove_at(random_floor_tile)
 		scene.add_child(coin)
+
+func spawn_enemies(scene, tilemap, num_enemies):
+	map_floor_tiles = _get_floor_tiles(tilemap)
+	var enemy_scene = load("res://scenes/enemy.tscn")
+	var rand_generate = RandomNumberGenerator.new()
+	rand_generate.randomize()
+	
+	for _e in range(num_enemies):
+		var random_floor_tile = rand_generate.randi_range(1,map_floor_tiles.size()-1)
+		var enemy = enemy_scene.instantiate()
+		enemy.position = enemy.position.snapped(Vector2(tile_size, tile_size))
+		enemy.position = tilemap.map_to_local(map_floor_tiles[random_floor_tile])
+		map_floor_tiles.remove_at(random_floor_tile)
+		scene.add_child(enemy)
