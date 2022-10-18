@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://de851vng6u2m4"]
+
+[ext_resource type="Texture2D" uid="uid://d0xm4bkmqhuop" path="res://assets/roguely-x-export.png" id="1_a1kqk"]
+[ext_resource type="Script" path="res://scenes/player.gd" id="1_snqom"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7jr75"]
+
+[node name="Player" type="CharacterBody2D"]
+z_index = 10
+script = ExtResource("1_snqom")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(31, 0)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_7jr75")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_a1kqk")
+region_enabled = true
+region_rect = Rect2(480, 0, 32, 32)

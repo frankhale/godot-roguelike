@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/combat.wav-0685ec2425b1681c630d0fdeef758069.sample"
+type="AudioStreamWAV"
+uid="uid://dwp5qnxwgagor"
+path="res://.godot/imported/combat.wav-0685ec2425b1681c630d0fdeef758069.sample"
 
 [deps]
 
 source_file="res://assets/sounds/combat.wav"
-dest_files=[ "res://.import/combat.wav-0685ec2425b1681c630d0fdeef758069.sample" ]
+dest_files=["res://.godot/imported/combat.wav-0685ec2425b1681c630d0fdeef758069.sample"]
 
 [params]
 
@@ -17,5 +18,7 @@ force/max_rate=false
 force/max_rate_hz=44100
 edit/trim=false
 edit/normalize=false
-edit/loop=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
 compress/mode=0

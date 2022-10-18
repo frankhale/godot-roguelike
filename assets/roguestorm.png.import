@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/roguely-godot.png-9daa883d4fd9a479b910e7671e7a2b43.stex"
+path="res://.import/roguestorm.png-f05ec066475fbbf9ffd861e2e7cf764b.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/roguely-godot.png"
-dest_files=[ "res://.import/roguely-godot.png-9daa883d4fd9a479b910e7671e7a2b43.stex" ]
+source_file="res://assets/roguestorm.png"
+dest_files=[ "res://.import/roguestorm.png-f05ec066475fbbf9ffd861e2e7cf764b.stex" ]
 
 [params]
 
@@ -28,6 +28,7 @@ process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
 process/invert_color=false
+process/normal_map_invert_y=false
 stream=false
 size_limit=0
 detect_3d=true

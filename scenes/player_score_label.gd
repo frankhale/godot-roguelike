@@ -2,9 +2,8 @@ extends Label
 
 signal update_score_label(value)
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	connect("update_score_label", self, "update_text")
+	var _ignore_value = connect("update_score_label", update_text)
 	update_text(0)
 
 func update_text(value):

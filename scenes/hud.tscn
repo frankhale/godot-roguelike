@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://ihxigo6qqwmw"]
+
+[ext_resource type="Script" path="res://scenes/player_score_label.gd" id="1_kmhfi"]
+
+[node name="HUD" type="CanvasLayer"]
+
+[node name="ScoreNameLabel" type="Label" parent="."]
+offset_left = 32.0
+offset_top = 32.0
+offset_right = 128.0
+offset_bottom = 80.0
+theme_override_font_sizes/font_size = 32
+text = "Score:"
+
+[node name="PlayerScoreLabel" type="Label" parent="."]
+offset_left = 136.0
+offset_top = 32.0
+offset_right = 200.0
+offset_bottom = 80.0
+theme_override_font_sizes/font_size = 32
+text = "##"
+script = ExtResource("1_kmhfi")
