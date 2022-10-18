@@ -19,6 +19,10 @@ config/icon="res://icon.png"
 
 Global="*res://Global.gd"
 
+[display]
+
+window/size/resizable=false
+
 [rendering]
 
 environment/defaults/default_clear_color=Color(0, 0, 0, 1)

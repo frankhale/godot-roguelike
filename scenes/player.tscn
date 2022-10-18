@@ -14,6 +14,7 @@ target_position = Vector2(31, 0)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
+limit_smoothed = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_7jr75")
