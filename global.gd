@@ -4,7 +4,7 @@ var sounds = {}
 var map_floor_tiles = []
 
 @export var tile_size = 32
-@onready var _player_instance = load("res://scenes/player.tscn").instantiate()
+@onready var _player_instance : CharacterBody2D = load("res://scenes/player.tscn").instantiate()
 
 signal update_player_score(value)
 signal play_music(path)
@@ -53,7 +53,8 @@ func spawn_player(scene, tilemap):
 	map_floor_tiles = _get_floor_tiles(tilemap)
 	var rand_generate = RandomNumberGenerator.new()
 	rand_generate.randomize()
-	var random_floor_tile = rand_generate.randi_range(1,map_floor_tiles.size()-1)	
+	
+	var random_floor_tile = rand_generate.randi_range(0,map_floor_tiles.size()-1)		
 	_player_instance.position = _player_instance.position.snapped(Vector2(tile_size, tile_size))
 	_player_instance.position = tilemap.map_to_local(map_floor_tiles[random_floor_tile])
 	map_floor_tiles.remove_at(random_floor_tile)
@@ -66,7 +67,7 @@ func spawn_coins(scene, tilemap, num_coins):
 	rand_generate.randomize()
 	
 	for _c in range(num_coins):
-		var random_floor_tile = rand_generate.randi_range(1,map_floor_tiles.size()-1)
+		var random_floor_tile = rand_generate.randi_range(0,map_floor_tiles.size()-1)
 		var coin = coin_scene.instantiate()
 		coin.position = coin.position.snapped(Vector2(tile_size, tile_size))
 		coin.position = tilemap.map_to_local(map_floor_tiles[random_floor_tile])
@@ -80,9 +81,11 @@ func spawn_enemies(scene, tilemap, num_enemies):
 	rand_generate.randomize()
 	
 	for _e in range(num_enemies):
-		var random_floor_tile = rand_generate.randi_range(1,map_floor_tiles.size()-1)
+		var random_floor_tile = rand_generate.randi_range(0,map_floor_tiles.size()-1)
 		var enemy = enemy_scene.instantiate()
+		var enemies_container = scene.get_node("Enemies")
+		
 		enemy.position = enemy.position.snapped(Vector2(tile_size, tile_size))
 		enemy.position = tilemap.map_to_local(map_floor_tiles[random_floor_tile])
 		map_floor_tiles.remove_at(random_floor_tile)
-		scene.add_child(enemy)
+		enemies_container.add_child(enemy)

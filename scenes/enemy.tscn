@@ -4,15 +4,20 @@
 [ext_resource type="Texture2D" uid="uid://d0xm4bkmqhuop" path="res://assets/roguely-x-export.png" id="1_qisfd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wu2gd"]
+size = Vector2(32, 32)
 
 [node name="Enemy" type="CharacterBody2D"]
+slide_on_ceiling = false
 script = ExtResource("1_p3nx2")
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
-target_position = Vector2(31, 0)
+target_position = Vector2(32, 0)
+hit_from_inside = true
+collide_with_areas = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_wu2gd")
+debug_color = Color(0.431373, 0.568627, 0.54902, 0.419608)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_qisfd")

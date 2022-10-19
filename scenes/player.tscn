@@ -4,13 +4,16 @@
 [ext_resource type="Script" path="res://scenes/player.gd" id="1_snqom"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7jr75"]
+size = Vector2(30, 30)
 
 [node name="Player" type="CharacterBody2D"]
 z_index = 10
+slide_on_ceiling = false
 script = ExtResource("1_snqom")
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
-target_position = Vector2(31, 0)
+target_position = Vector2(32, 0)
+hit_from_inside = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true

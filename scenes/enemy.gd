@@ -3,7 +3,14 @@ extends CharacterBody2D
 @onready var ray : RayCast2D = $RayCast2D
 @onready var sprite : Sprite2D = $Sprite2D
 
+var rand_generate = RandomNumberGenerator.new()
 var enemy_type_name
+var directions = [
+	Vector2.RIGHT,
+	Vector2.LEFT,
+	Vector2.UP,
+	Vector2.DOWN
+]
 
 var enemy_data = {
 	"spider": {
@@ -57,7 +64,7 @@ var enemy_data = {
 		"attack": 8
 	},
 	"kinglobster": {
-		"rect": Rect2(416,0,Global.tile_size,Global.tile_size),
+		"rect": Rect2(384,0,Global.tile_size,Global.tile_size),
 		"health": 120,
 		"attack": 9
 	},
@@ -68,36 +75,50 @@ var enemy_data = {
 	}
 }
 
-signal set_enemy_sprite
+var current_scene 
+var player
+
+
+signal process_enemy_turn(enemies)
 
 func _ready():
-	var rand_generate = RandomNumberGenerator.new()
+	connect("process_enemy_turn", _handle_enemy_turn)
 	rand_generate.randomize()
-	var enemy_key = rand_generate.randi_range(1,enemy_data.keys().size()-1)
+
+	current_scene = get_tree().get_current_scene()
+	player = current_scene.get_node("Player")
+
+	var enemy_key = rand_generate.randi_range(0,enemy_data.keys().size()-1)
 	enemy_type_name = enemy_data.keys()[enemy_key]
 	set_enemy_type(enemy_type_name)
 
-func set_enemy_type(name):
-	if enemy_data.has(name):
-		sprite.region_rect = enemy_data[name].rect
+func set_enemy_type(enemy_name):
+	if enemy_data.has(enemy_name):
+		sprite.region_rect = enemy_data[enemy_name].rect
 	else:
 		sprite.region_rect = enemy_data[enemy_type_name].rect
 
 func attack():
 	pass
 
-func move(dir):
-	pass
-#	ray.target_position = inputs[dir] * Global.tile_size
-#	ray.force_raycast_update()
-#	if !ray.is_colliding():
-#		var collision = move_and_collide(inputs[dir] * Global.tile_size)
-#		if not collision:
-#			Global.emit_signal("play_music", "walk")
-#	else:
-#		var collision_point = ray.get_collision_point()
-#		var collision_normal = ray.get_collision_normal()
-#		var cell = tilemap.local_to_map(collision_point - collision_normal)
-#
-#		if wall_tile_coords.has(tilemap.get_cell_atlas_coords(0, cell)):
-#			Global.emit_signal("play_music", "bump")
+func move(_enemies):
+	var dir = rand_generate.randi_range(0, directions.size() - 1)
+	#var player_position = player.position	
+	ray.target_position = directions[dir] * Global.tile_size
+	ray.force_raycast_update()
+	if !ray.is_colliding():
+		#var enemy_new_position = position + (directions[dir] * Global.tile_size)
+#		print("Player Pos: ", player_position)
+#		print("Move Enemy: ", enemy_new_position)
+		
+#		for e in enemies:
+#			if e.position == enemy_new_position:
+#				return
+
+		#if player_position != enemy_new_position:
+		move_and_collide(directions[dir] * Global.tile_size)
+	#else:
+	#	move()
+
+func _handle_enemy_turn(enemies):
+	move(enemies)

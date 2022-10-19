@@ -1,5 +1,6 @@
 extends CharacterBody2D
 
+var current_scene
 var player_score = 0
 var inputs = {
 	"ui_right": Vector2.RIGHT,
@@ -19,6 +20,7 @@ var inputs = {
 signal add_to_player_score(value)
 
 func _ready():
+	current_scene = get_tree().get_current_scene()
 	connect("add_to_player_score", _handle_add_to_player_score)
 	_handle_add_to_player_score(player_score)
 
@@ -43,10 +45,13 @@ func move(dir):
 		if not collision:
 			Global.emit_signal("play_music", "walk")
 	else:
-		var collision_point = ray.get_collision_point()
-		var collision_normal = ray.get_collision_normal()
-		var cell = tilemap.local_to_map(collision_point - collision_normal)
+		#var collision_point = ray.get_collision_point()
+		#var collision_normal = ray.get_collision_normal()
+		#var cell = tilemap.local_to_map(collision_point - collision_normal)
 	
-		if wall_tile_coords.has(tilemap.get_cell_atlas_coords(0, cell)):
-			Global.emit_signal("play_music", "bump")
-
+		#if wall_tile_coords.has(tilemap.get_cell_atlas_coords(0, cell)):
+		Global.emit_signal("play_music", "bump")
+	
+	var enemy_nodes = current_scene.get_node("Enemies").get_children()
+	for e in enemy_nodes:
+		e.emit_signal("process_enemy_turn", enemy_nodes)
