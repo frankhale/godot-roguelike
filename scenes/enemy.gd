@@ -11,7 +11,6 @@ var directions = [
 	Vector2.UP,
 	Vector2.DOWN
 ]
-
 var enemy_data = {
 	"spider": {
 		"rect": Rect2(160,0,Global.tile_size,Global.tile_size),
@@ -75,18 +74,8 @@ var enemy_data = {
 	}
 }
 
-var current_scene 
-var player
-
-
-signal process_enemy_turn(enemies)
-
 func _ready():
-	connect("process_enemy_turn", _handle_enemy_turn)
 	rand_generate.randomize()
-
-	current_scene = get_tree().get_current_scene()
-	player = current_scene.get_node("Player")
 
 	var enemy_key = rand_generate.randi_range(0,enemy_data.keys().size()-1)
 	enemy_type_name = enemy_data.keys()[enemy_key]
@@ -101,24 +90,17 @@ func set_enemy_type(enemy_name):
 func attack():
 	pass
 
-func move(_enemies):
+func move():
 	var dir = rand_generate.randi_range(0, directions.size() - 1)
-	#var player_position = player.position	
-	ray.target_position = directions[dir] * Global.tile_size
-	ray.force_raycast_update()
-	if !ray.is_colliding():
-		#var enemy_new_position = position + (directions[dir] * Global.tile_size)
-#		print("Player Pos: ", player_position)
-#		print("Move Enemy: ", enemy_new_position)
-		
-#		for e in enemies:
-#			if e.position == enemy_new_position:
-#				return
-
-		#if player_position != enemy_new_position:
-		move_and_collide(directions[dir] * Global.tile_size)
-	#else:
-	#	move()
-
-func _handle_enemy_turn(enemies):
-	move(enemies)
+	var new_position = position + (directions[dir] * Global.tile_size)
+	
+	if not Global.enemy_moves.has(new_position):
+		Global.enemy_moves.push_back(new_position)
+	
+		ray.target_position = directions[dir] * Global.tile_size
+		ray.force_raycast_update()
+	
+		if not ray.is_colliding():
+			move_and_collide(directions[dir] * Global.tile_size)
+	else:
+		print("contentious position found!")

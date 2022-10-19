@@ -1,13 +1,14 @@
 extends Node
 
-var sounds = {}
-var map_floor_tiles = []
+signal update_player_score(value)
+signal play_music(path)
 
 @export var tile_size = 32
 @onready var _player_instance : CharacterBody2D = load("res://scenes/player.tscn").instantiate()
 
-signal update_player_score(value)
-signal play_music(path)
+var sounds = {}
+var map_floor_tiles = []
+var enemy_moves = []
 
 func _ready():
 	sounds = {
@@ -31,7 +32,6 @@ func handle_update_player_score(value):
 	_player_instance.emit_signal("add_to_player_score", value)
 
 func handle_play_music(path):
-	#print("Playing: %s" % path)
 	sounds[path].play()
 
 func _get_floor_tiles(tilemap):

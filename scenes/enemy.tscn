@@ -3,23 +3,23 @@
 [ext_resource type="Script" path="res://scenes/enemy.gd" id="1_p3nx2"]
 [ext_resource type="Texture2D" uid="uid://d0xm4bkmqhuop" path="res://assets/roguely-x-export.png" id="1_qisfd"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_wu2gd"]
-size = Vector2(32, 32)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xhjho"]
+size = Vector2(31, 31)
 
 [node name="Enemy" type="CharacterBody2D"]
-slide_on_ceiling = false
+input_pickable = true
 script = ExtResource("1_p3nx2")
 
-[node name="RayCast2D" type="RayCast2D" parent="."]
-target_position = Vector2(32, 0)
-hit_from_inside = true
-collide_with_areas = true
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_wu2gd")
-debug_color = Color(0.431373, 0.568627, 0.54902, 0.419608)
+z_index = 10
+shape = SubResource("RectangleShape2D_xhjho")
+debug_color = Color(0.92549, 0.105882, 0, 0.419608)
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(16, 0)
+hit_from_inside = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_qisfd")
 region_enabled = true
-region_rect = Rect2(160, 0, 32, 32)
+region_rect = Rect2(192, 0, 32, 32)

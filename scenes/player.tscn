@@ -4,23 +4,25 @@
 [ext_resource type="Script" path="res://scenes/player.gd" id="1_snqom"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7jr75"]
-size = Vector2(30, 30)
+size = Vector2(31, 31)
 
 [node name="Player" type="CharacterBody2D"]
 z_index = 10
 slide_on_ceiling = false
 script = ExtResource("1_snqom")
 
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+z_index = 10
+shape = SubResource("RectangleShape2D_7jr75")
+debug_color = Color(0.92549, 0.105882, 0, 0.419608)
+
 [node name="RayCast2D" type="RayCast2D" parent="."]
-target_position = Vector2(32, 0)
+target_position = Vector2(16, 0)
 hit_from_inside = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
 limit_smoothed = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_7jr75")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_a1kqk")
