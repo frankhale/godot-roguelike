@@ -102,5 +102,12 @@ func move():
 	
 		if not ray.is_colliding():
 			move_and_collide(directions[dir] * Global.tile_size)
-	else:
-		print("contentious position found!")
+#		else:
+#			var collider = ray.get_collider()
+#			print("ENEMY COLLIDED WITH: ", collider)
+
+func _on_area_2d_body_entered(body):
+	print("ENEMY HURTBOX ENTERED: ", body)
+
+func _on_area_2d_body_exited(body):
+	print("ENEMY HURTBOX EXITED: ", body)

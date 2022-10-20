@@ -59,6 +59,8 @@ func move(dir):
 		timer.start()
 		Global.emit_signal("play_music", "walk")
 	else:
+		var collider = ray.get_collider()
+		print("PLAYER COLLIDED WITH: ", collider)
 		#var collision_point = ray.get_collision_point()
 		#var collision_normal = ray.get_collision_normal()
 		#var cell = tilemap.local_to_map(collision_point - collision_normal)
