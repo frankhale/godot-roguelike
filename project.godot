@@ -13,6 +13,8 @@ config_version=5
 config/name="roguely-x"
 run/main_scene="res://scenes/level_1.tscn"
 config/features=PackedStringArray("4.0", "Forward Plus")
+boot_splash/show_image=false
+boot_splash/bg_color=Color(0.486275, 0.486275, 0.486275, 1)
 config/icon="res://icon.png"
 
 [autoload]
@@ -22,6 +24,11 @@ Global="*res://Global.gd"
 [display]
 
 window/size/resizable=false
+
+[filesystem]
+
+import/blender/enabled=false
+import/fbx/enabled=false
 
 [input]
 
@@ -46,4 +53,4 @@ ui_down={
 
 [rendering]
 
-environment/defaults/default_clear_color=Color(0, 0, 0, 1)
+environment/defaults/default_clear_color=Color(0.223529, 0.223529, 0.223529, 1)

@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://xjijy0kg7svc"]
+[gd_scene load_steps=7 format=3 uid="uid://xjijy0kg7svc"]
 
 [ext_resource type="Script" path="res://scenes/enemy.gd" id="1_p3nx2"]
 [ext_resource type="Texture2D" uid="uid://d0xm4bkmqhuop" path="res://assets/roguely-x-export.png" id="1_qisfd"]
+[ext_resource type="Texture2D" uid="uid://kba8b183fv31" path="res://assets/progress-bg.png" id="3_vwiop"]
+[ext_resource type="Texture2D" uid="uid://de7l50mqo8sgq" path="res://assets/progress-fill.png" id="4_go1dt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xhjho"]
 size = Vector2(31, 31)
@@ -32,6 +34,23 @@ z_index = 10
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_dhklb")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -16.0
+offset_top = -38.0
+offset_right = 16.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 0
+value = 100.0
+nine_patch_stretch = true
+texture_under = ExtResource("3_vwiop")
+texture_progress = ExtResource("4_go1dt")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]

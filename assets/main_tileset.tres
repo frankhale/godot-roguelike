@@ -1,6 +1,11 @@
-[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://bfsugmdgw3g6m"]
+[gd_resource type="TileSet" load_steps=4 format=3 uid="uid://bfsugmdgw3g6m"]
 
 [ext_resource type="Texture2D" uid="uid://d0xm4bkmqhuop" path="res://assets/roguely-x-export.png" id="1_ycr6s"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_kyg6k"]
+vertices = PackedVector2Array(16, 16, -16, 16, -16, -16, 16, -16)
+polygons = [PackedInt32Array(0, 1, 2, 3)]
+outlines = [PackedVector2Array(16, -16, -16, -16, -16, 16, 16, 16)]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_j1mvi"]
 resource_name = "main_tilemap_atlas"
@@ -238,6 +243,7 @@ texture_region_size = Vector2i(32, 32)
 10:4/0 = 0
 10:4/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 10:4/0/physics_layer_0/angular_velocity = 0.0
+10:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_kyg6k")
 11:4/0 = 0
 11:4/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 11:4/0/physics_layer_0/angular_velocity = 0.0

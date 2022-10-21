@@ -1,22 +1,71 @@
-[gd_scene load_steps=2 format=3 uid="uid://ihxigo6qqwmw"]
+[gd_scene load_steps=5 format=3 uid="uid://bfskvxwsawolx"]
 
-[ext_resource type="Script" path="res://scenes/player_score_label.gd" id="1_kmhfi"]
+[ext_resource type="Script" path="res://scenes/hud.gd" id="1_kmhfi"]
+[ext_resource type="FontFile" uid="uid://kp2myh7g2dkw" path="res://assets/NESCyrillic.ttf" id="2_0v2dm"]
 
-[node name="HUD" type="CanvasLayer"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i8ovi"]
+bg_color = Color(0.203922, 0.203922, 0.203922, 1)
 
-[node name="ScoreNameLabel" type="Label" parent="."]
-offset_left = 32.0
-offset_top = 32.0
-offset_right = 128.0
-offset_bottom = 80.0
-theme_override_font_sizes/font_size = 32
-text = "Score:"
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_elkgr"]
+bg_color = Color(0.0352941, 0.647059, 0, 1)
 
-[node name="PlayerScoreLabel" type="Label" parent="."]
-offset_left = 136.0
-offset_top = 32.0
-offset_right = 200.0
-offset_bottom = 80.0
-theme_override_font_sizes/font_size = 32
-text = "##"
+[node name="HUD" type="Node2D"]
 script = ExtResource("1_kmhfi")
+
+[node name="Panel" type="Panel" parent="."]
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 1184.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -21.0
+offset_top = -48.0
+offset_right = 21.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/VBoxContainer"]
+offset_right = 48.0
+offset_bottom = 38.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PlayerScoreLabel" type="Label" parent="Panel/VBoxContainer/HBoxContainer"]
+offset_right = 48.0
+offset_bottom = 38.0
+theme_override_fonts/font = ExtResource("2_0v2dm")
+theme_override_font_sizes/font_size = 48
+text = "##"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="Panel"]
+anchors_preset = -1
+anchor_left = 0.107
+anchor_top = 0.491
+anchor_right = 0.107
+anchor_bottom = 0.578
+offset_left = -0.112
+offset_top = -15.616
+offset_right = 319.888
+offset_bottom = 19.384
+grow_vertical = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="Panel/VBoxContainer2"]
+offset_top = 3.0
+offset_right = 320.0
+offset_bottom = 38.0
+theme_override_fonts/font = ExtResource("2_0v2dm")
+theme_override_font_sizes/font_size = 48
+theme_override_styles/background = SubResource("StyleBoxFlat_i8ovi")
+theme_override_styles/fill = SubResource("StyleBoxFlat_elkgr")
+value = 100.0

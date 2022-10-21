@@ -20,11 +20,11 @@ debug_color = Color(0.92549, 0.105882, 0, 0.419608)
 target_position = Vector2(16, 0)
 hit_from_inside = true
 
-[node name="Camera2D" type="Camera2D" parent="."]
-current = true
-limit_smoothed = true
-
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_a1kqk")
 region_enabled = true
 region_rect = Rect2(480, 0, 32, 32)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+limit_smoothed = true

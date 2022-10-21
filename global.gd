@@ -3,12 +3,90 @@ extends Node
 signal update_player_score(value)
 signal play_music(path)
 
-@export var tile_size = 32
-@onready var _player_instance : CharacterBody2D = load("res://scenes/player.tscn").instantiate()
+const tile_size := 32
+@onready var player : CharacterBody2D = load("res://scenes/player.tscn").instantiate()
 
-var sounds = {}
-var map_floor_tiles = []
-var enemy_moves = []
+var sounds := {}
+var map_floor_tiles := []
+var enemy_moves := []
+const enemy_data := {
+	"spider": {
+		"rect": Rect2(160,0,tile_size,tile_size),
+		"health": 20,
+		"attack": 1,
+		"crit": 1
+	},
+	"lurcher": {
+		"rect": Rect2(192,0,tile_size,tile_size),
+		"health": 35,
+		"attack": 2,
+		"crit": 1
+	},
+	"crab": {
+		"rect": Rect2(288,0,tile_size,tile_size),
+		"health": 30,
+		"attack": 2,
+		"crit": 1
+	},
+	"bug": {
+		"rect": Rect2(96,0,tile_size,tile_size),
+		"health": 25,
+		"attack": 2,
+		"crit": 1
+	},
+	"firewalker": {
+		"rect": Rect2(224,0,tile_size,tile_size),
+		"health": 75,
+		"attack": 4,
+		"crit": 1
+	},
+	"crimsonshadow": {
+		"rect": Rect2(128,0,tile_size,tile_size),
+		"health": 85,
+		"attack": 5,
+		"crit": 1
+	},
+	"purpleblob": {
+		"rect": Rect2(64,0,tile_size,tile_size),
+		"health": 95,
+		"attack": 6,
+		"crit": 1
+	},
+	"orangeblob": {
+		"rect": Rect2(32,0,tile_size,tile_size),
+		"health": 100,
+		"attack": 7,
+		"crit": 1
+	},
+	"mantis": {
+		"rect": Rect2(256,0,tile_size,tile_size),
+		"health": 50,
+		"attack": 3,
+		"crit": 1
+	},
+	"firebeetle": {
+		"rect": Rect2(352,0,tile_size,tile_size),
+		"health": 110,
+		"attack": 8,
+		"crit": 1
+	},
+	"kinglobster": {
+		"rect": Rect2(384,0,tile_size,tile_size),
+		"health": 120,
+		"attack": 9,
+		"crit": 1
+	},
+	"roach": {
+		"rect": Rect2(0,0,tile_size,tile_size),
+		"health": 30,
+		"attack": 2,
+		"crit": 1
+	}
+}
+const item_type := {
+	coin = 0,
+	enemy = 1
+}
 
 func _ready():
 	sounds = {
@@ -29,10 +107,10 @@ func create_audio_player(path):
 	return music_player
 	
 func handle_update_player_score(value):
-	_player_instance.emit_signal("add_to_player_score", value)
+	player.emit_signal("add_to_player_score", value)
 
 func handle_play_music(path):
-	sounds[path].play()
+	pass #sounds[path].play()
 
 func _get_floor_tiles(tilemap):
 	if map_floor_tiles.size() > 0:
@@ -49,17 +127,23 @@ func _get_floor_tiles(tilemap):
 	
 	return map_floor_tiles
 
+#func spawn(scene, tilemap, item):
+#	pass
+
 func spawn_player(scene, tilemap):
 	map_floor_tiles = _get_floor_tiles(tilemap)
 	var rand_generate = RandomNumberGenerator.new()
 	rand_generate.randomize()
 	
 	var random_floor_tile = rand_generate.randi_range(0,map_floor_tiles.size()-1)		
-	_player_instance.position = _player_instance.position.snapped(Vector2(tile_size, tile_size))
-	_player_instance.position = tilemap.map_to_local(map_floor_tiles[random_floor_tile])
+	player.position = player.position.snapped(Vector2(tile_size, tile_size))
+	player.position = tilemap.map_to_local(map_floor_tiles[random_floor_tile])
 	map_floor_tiles.remove_at(random_floor_tile)
-	scene.add_child(_player_instance)
-
+	scene.add_child(player)
+	
+	print("PLAYER ID: ", player)
+	return player
+	
 func spawn_coins(scene, tilemap, num_coins):
 	map_floor_tiles = _get_floor_tiles(tilemap)
 	var coin_scene = load("res://scenes/coin.tscn")

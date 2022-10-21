@@ -11,10 +11,17 @@ Coin spawning is implemented
 Coin pickup is implemented
 Score is implemented
 
+## Assets
+
+The font used is public domain and is called NESCyrillic.ttf and was downloaded
+from:
+
+<http://www.pentacom.jp/pentacom/bitfontmaker2/gallery/?id=234>
+
 ## Author[s]
 
 Frank Hale
 
 ## Updated Date
 
-19 October 2022
+21 October 2022
