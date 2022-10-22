@@ -1,12 +1,11 @@
 extends Node2D
 
-@onready var tilemap : TileMap = $SubViewportContainer/SubViewport/TileMap
-@onready var viewport = $SubViewportContainer/SubViewport
+@onready var tilemap  = $TileMap
 
 func _ready():
-	var player = Global.spawn_player(viewport, tilemap)
-	Global.spawn_coins(viewport, tilemap, 5)
-	Global.spawn_enemies(viewport, tilemap, 5)
+	var _player = Global.spawn_player(self, tilemap)
+	Global.spawn_coins(self, tilemap, 5)
+	Global.spawn_enemies(self, tilemap, 5)
 	
 	#var map_coords = tilemap.local_to_map(Vector2i(320,512))
 	#var atlas_coords = tilemap.get_cell_atlas_coords(0, map_coords)	

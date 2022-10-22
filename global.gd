@@ -110,7 +110,7 @@ func handle_update_player_score(value):
 	player.emit_signal("add_to_player_score", value)
 
 func handle_play_music(path):
-	pass #sounds[path].play()
+	sounds[path].play()
 
 func _get_floor_tiles(tilemap):
 	if map_floor_tiles.size() > 0:

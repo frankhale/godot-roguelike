@@ -44,10 +44,12 @@ func move():
 #			var collider = ray.get_collider()
 #			print("ENEMY COLLIDED WITH: ", collider)
 
-func _on_area_2d_body_entered(body):
-	print("ENEMY HURTBOX ENTERED: ", body)
-	if Global.player == body:
-		print("PLAYER AFFECTED BY ENEMY HURTBOX!!!")
-
-func _on_area_2d_body_exited(body):
-	pass #print("ENEMY HURTBOX EXITED: ", body)
+func _on_area_2d_body_entered(_body):
+	pass
+	#if Global.player == body:
+		#print("PLAYER AFFECTED BY ENEMY HURTBOX!!!")
+		
+func _on_area_2d_body_exited(_body):
+	pass
+	#print("ENEMY HURTBOX EXITED: ", body)
+	#if Global.player == body:

@@ -12,6 +12,7 @@ size = Vector2(31, 31)
 size = Vector2(64, 64)
 
 [node name="Enemy" type="CharacterBody2D"]
+z_index = 1
 input_pickable = true
 script = ExtResource("1_p3nx2")
 
@@ -25,6 +26,7 @@ target_position = Vector2(16, 0)
 hit_from_inside = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 10
 texture = ExtResource("1_qisfd")
 region_enabled = true
 region_rect = Rect2(192, 0, 32, 32)
@@ -35,7 +37,10 @@ z_index = 10
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_dhklb")
 
-[node name="TextureProgressBar" type="TextureProgressBar" parent="."]
+[node name="Node2D" type="Node2D" parent="."]
+z_index = 1111
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="Node2D"]
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0

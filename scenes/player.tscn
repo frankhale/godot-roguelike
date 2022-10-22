@@ -1,13 +1,20 @@
-[gd_scene load_steps=4 format=3 uid="uid://de851vng6u2m4"]
+[gd_scene load_steps=8 format=3 uid="uid://de851vng6u2m4"]
 
 [ext_resource type="Texture2D" uid="uid://d0xm4bkmqhuop" path="res://assets/roguely-x-export.png" id="1_a1kqk"]
 [ext_resource type="Script" path="res://scenes/player.gd" id="1_snqom"]
+[ext_resource type="PackedScene" uid="uid://bfskvxwsawolx" path="res://scenes/hud.tscn" id="3_104vp"]
+[ext_resource type="Texture2D" uid="uid://kba8b183fv31" path="res://assets/progress-bg.png" id="4_l13iq"]
+[ext_resource type="Texture2D" uid="uid://de7l50mqo8sgq" path="res://assets/progress-fill.png" id="5_coiph"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7jr75"]
 size = Vector2(31, 31)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x72du"]
+size = Vector2(64, 64)
+
 [node name="Player" type="CharacterBody2D"]
 z_index = 10
+y_sort_enabled = true
 slide_on_ceiling = false
 script = ExtResource("1_snqom")
 
@@ -21,10 +28,43 @@ target_position = Vector2(16, 0)
 hit_from_inside = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 10
 texture = ExtResource("1_a1kqk")
 region_enabled = true
-region_rect = Rect2(480, 0, 32, 32)
+region_rect = Rect2(478, 0, 32, 32)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
 limit_smoothed = true
+
+[node name="HUD" parent="." instance=ExtResource("3_104vp")]
+position = Vector2(-576, -300)
+
+[node name="Area2D" type="Area2D" parent="."]
+z_index = 10
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_x72du")
+
+[node name="Node2D" type="Node2D" parent="."]
+z_index = 1111
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="Node2D"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -16.0
+offset_top = -38.0
+offset_right = 16.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 0
+value = 100.0
+nine_patch_stretch = true
+texture_under = ExtResource("4_l13iq")
+texture_progress = ExtResource("5_coiph")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]

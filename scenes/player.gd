@@ -3,8 +3,8 @@ extends CharacterBody2D
 signal add_to_player_score(value)
 
 @onready var ray := $RayCast2D
-@onready var tilemap : TileMap = get_tree().get_current_scene().get_node("SubViewportContainer/SubViewport/TileMap")
-@onready var hud = get_tree().get_current_scene().get_node("HUD")
+@onready var tilemap : TileMap = get_tree().get_current_scene().get_node("TileMap")
+@onready var hud = $HUD
 @onready var wall_tile_coords := [
 	Vector2i(0,4),
 	Vector2i(1,4),
@@ -68,7 +68,7 @@ func move(dir):
 		Global.emit_signal("play_music", "bump")
 
 func handle_timeout():
-	var enemies_node = current_scene.get_node("SubViewportContainer/SubViewport/Enemies")
+	var enemies_node = current_scene.get_node("Enemies")
 	var enemies = enemies_node.get_children()
 	
 	if enemies.size() > 0:
@@ -78,3 +78,9 @@ func handle_timeout():
 		
 		Global.enemy_moves.clear()
 		timer.stop()
+
+func _on_area_2d_body_entered(_body):
+	pass
+
+func _on_area_2d_body_exited(_body):
+	pass
