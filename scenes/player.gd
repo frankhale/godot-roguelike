@@ -54,6 +54,7 @@ func move(dir):
 	
 	if not ray.is_colliding():
 		move_and_collide(inputs[dir] * Global.tile_size)
+		Global.enemy_moves.push_back(position + (inputs[dir] * Global.tile_size))
 		timer.start()
 		Global.emit_signal("play_music", "walk")
 	else:
