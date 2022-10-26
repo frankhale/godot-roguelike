@@ -5,6 +5,7 @@ signal add_experience(value)
 signal take_damage(damage)
 signal increase_health(value)
 
+@onready var minimap := $Minimap/Panel
 @onready var healthbar := $HealthBar
 @onready var camera := $Camera2D
 @onready var ray := $RayCast2D
@@ -93,6 +94,7 @@ func move(dir):
 		Global.emit_signal("play_music", "walk")
 		
 		handle_enemy_movement()
+		minimap.emit_signal("update_player_position", position)
 	else:
 		var collider = ray.get_collider()
 		

@@ -3,9 +3,10 @@
 [ext_resource type="Script" path="res://scenes/minimap.gd" id="1_n4eox"]
 
 [node name="Minimap" type="Node2D"]
+scale = Vector2(4, 4)
 z_index = 1111
 
 [node name="Panel" type="Panel" parent="."]
-offset_right = 224.0
-offset_bottom = 192.0
+offset_right = 64.0
+offset_bottom = 56.0
 script = ExtResource("1_n4eox")

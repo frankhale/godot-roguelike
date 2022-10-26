@@ -4,17 +4,18 @@ Learning Godot by recreating my C++/Lua/SDL2 based roguelike
 
 ## Status
 
-[x] - Grid based movement  
-[x] - Enemy spawning  
-[x] - Enemy movement  
-[x] - Item spawning  
-[x] - Item pickup  
-[x] - Score  
-[x] - Enemy attack
-[x] - Player attack
-[] - Title screen
-[] - Win state
-[x] - death state (currently just restarts scene)
+- [x] Grid based movement  
+- [x] Enemy spawning  
+- [x] Enemy movement  
+- [x] Item spawning  
+- [x] Item pickup  
+- [x] Score  
+- [x] Enemy attack
+- [x] Player attack
+- [ ] Title screen
+- [ ] Win state
+- [x] death state (currently just restarts scene)
+- [ ] minim
 
 ## Assets
 
