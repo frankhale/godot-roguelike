@@ -1,10 +1,15 @@
 extends CharacterBody2D
 
+signal take_damage(damage)
+signal attack_player()
+
+@onready var healthbar := $HealthBar
 @onready var ray := $RayCast2D
 @onready var sprite := $Sprite2D
 
-var rand_generate := RandomNumberGenerator.new()
 var enemy_type_name := "enemy"
+var stats : Dictionary
+var attack_timer : Timer
 const directions := [
 	Vector2.RIGHT,
 	Vector2.LEFT,
@@ -13,23 +18,58 @@ const directions := [
 ]
 
 func _ready():
-	rand_generate.randomize()
+	connect("take_damage", handle_take_damage)
+	connect("attack_player", handle_attack)
 
-	var enemy_key = rand_generate.randi_range(0,Global.enemy_data.keys().size()-1)
+	attack_timer = Timer.new()
+	attack_timer.wait_time = 1
+	attack_timer.connect("timeout", handle_attack)
+	add_child(attack_timer)
+
+	var enemy_key = randi() % Global.enemy_data.keys().size()
 	enemy_type_name = Global.enemy_data.keys()[enemy_key]
-	set_enemy_type(enemy_type_name)
+	stats = set_enemy_type(enemy_type_name)
+	stats.erase("rect")
+	stats.health = stats.max_health
+	healthbar.set_max_value(stats.max_health)
+	healthbar.set_value(stats.health)
 
 func set_enemy_type(enemy_name):
+	var enemy_key = enemy_type_name
+
 	if Global.enemy_data.has(enemy_name):
-		sprite.region_rect = Global.enemy_data[enemy_name].rect
-	else:
-		sprite.region_rect = Global.enemy_data[enemy_type_name].rect
+		enemy_key = enemy_name
+
+	sprite.region_rect = Global.enemy_data[enemy_key].rect
+	return Global.enemy_data[enemy_key].duplicate()
+
+func handle_attack():
+	var damage = attack()
+	Global.player.emit_signal("take_damage", damage)
 
 func attack():
-	pass
+	var damage = 0
+	var crit_chance = (randi() % 100) <= 20
+	if crit_chance:
+		damage = stats.attack + ((randi() % 5) * stats.crit)
+	else:
+		damage = stats.attack + (randi() % 5)
+		
+	return damage
+
+func handle_take_damage(damage):
+	stats.health -= damage
+	stats.health = clamp(stats.health, 0, stats.max_health)
+	healthbar.set_value(stats.health)
+
+func _process(_delta):
+	if stats.health == 0:
+		Global.player.emit_signal("increase_health", stats.attack * 3)
+		Global.player.emit_signal("add_score", 25 * stats.attack)
+		queue_free()
 
 func move():
-	var dir = rand_generate.randi_range(0, directions.size() - 1)
+	var dir = randi() % directions.size()
 	var new_position = position + (directions[dir] * Global.tile_size)
 	
 	if not Global.enemy_moves.has(new_position):
@@ -44,12 +84,10 @@ func move():
 #			var collider = ray.get_collider()
 #			print("ENEMY COLLIDED WITH: ", collider)
 
-func _on_area_2d_body_entered(_body):
-	pass
-	#if Global.player == body:
-		#print("PLAYER AFFECTED BY ENEMY HURTBOX!!!")
+func _on_area_2d_body_entered(body):
+	if Global.player == body:
+		attack_timer.start()
 		
-func _on_area_2d_body_exited(_body):
-	pass
-	#print("ENEMY HURTBOX EXITED: ", body)
-	#if Global.player == body:
+func _on_area_2d_body_exited(body):
+	if Global.player == body:
+		attack_timer.stop()

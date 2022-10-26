@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://ct4357scssdps"]
+
+[ext_resource type="Script" path="res://scenes/golden_candle_pickup.gd" id="1_x8cl0"]
+[ext_resource type="Texture2D" uid="uid://d0xm4bkmqhuop" path="res://assets/roguely-x-export.png" id="2_iv64l"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jp4p2"]
+
+[node name="GoldenCandle" type="Area2D"]
+script = ExtResource("1_x8cl0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_jp4p2")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_iv64l")
+region_enabled = true
+region_rect = Rect2(416, 128, 32, 32)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

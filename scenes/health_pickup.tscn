@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://cvi4aqjw2lur"]
+
+[ext_resource type="Script" path="res://scenes/health_pickup.gd" id="1_5veph"]
+[ext_resource type="Texture2D" uid="uid://d0xm4bkmqhuop" path="res://assets/roguely-x-export.png" id="1_csjg3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3bka1"]
+
+[node name="HealthPickup" type="Area2D"]
+script = ExtResource("1_5veph")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_3bka1")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_csjg3")
+region_enabled = true
+region_rect = Rect2(0, 64, 32, 32)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

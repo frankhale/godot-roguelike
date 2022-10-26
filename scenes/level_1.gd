@@ -1,13 +1,13 @@
 extends Node2D
 
-@onready var tilemap  = $TileMap
+@onready var tilemap = $TileMap
 
 func _ready():
 	var _player = Global.spawn_player(self, tilemap)
-	Global.spawn_coins(self, tilemap, 5)
-	Global.spawn_enemies(self, tilemap, 5)
 	
-	#var map_coords = tilemap.local_to_map(Vector2i(320,512))
-	#var atlas_coords = tilemap.get_cell_atlas_coords(0, map_coords)	
-	#print("atlas tile (6,6): ", atlas_coords)	
-	#tilemap.set_cell(0, tilemap.local_to_map(Vector2i(320,512)), 0, Vector2i(8,8))
+	Global.emit_signal("play_music", "background_music")
+	
+	Global.spawn(self, "res://scenes/golden_candle_pickup.tscn", tilemap, 1)
+	Global.spawn(self, "res://scenes/coin_pickup.tscn", tilemap, 10)
+	Global.spawn(self, "res://scenes/health_pickup.tscn", tilemap, 5)	
+	Global.spawn(self, "res://scenes/enemy.tscn", tilemap, 15, "Enemies")

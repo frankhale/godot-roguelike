@@ -1,10 +1,11 @@
 extends Node
 
-signal update_player_score(value)
+signal update_player(score, exp)
 signal play_music(path)
+signal player_died()
 
 const tile_size := 32
-@onready var player : CharacterBody2D = load("res://scenes/player.tscn").instantiate()
+var player : CharacterBody2D
 
 var sounds := {}
 var map_floor_tiles := []
@@ -12,73 +13,73 @@ var enemy_moves := []
 const enemy_data := {
 	"spider": {
 		"rect": Rect2(160,0,tile_size,tile_size),
-		"health": 20,
+		"max_health": 20,
 		"attack": 1,
 		"crit": 1
 	},
 	"lurcher": {
 		"rect": Rect2(192,0,tile_size,tile_size),
-		"health": 35,
+		"max_health": 35,
 		"attack": 2,
 		"crit": 1
 	},
 	"crab": {
 		"rect": Rect2(288,0,tile_size,tile_size),
-		"health": 30,
+		"max_health": 30,
 		"attack": 2,
 		"crit": 1
 	},
 	"bug": {
 		"rect": Rect2(96,0,tile_size,tile_size),
-		"health": 25,
+		"max_health": 25,
 		"attack": 2,
 		"crit": 1
 	},
 	"firewalker": {
 		"rect": Rect2(224,0,tile_size,tile_size),
-		"health": 75,
+		"max_health": 75,
 		"attack": 4,
 		"crit": 1
 	},
 	"crimsonshadow": {
 		"rect": Rect2(128,0,tile_size,tile_size),
-		"health": 85,
+		"max_health": 85,
 		"attack": 5,
 		"crit": 1
 	},
 	"purpleblob": {
 		"rect": Rect2(64,0,tile_size,tile_size),
-		"health": 95,
+		"max_health": 95,
 		"attack": 6,
-		"crit": 1
+		"crit": 2
 	},
 	"orangeblob": {
 		"rect": Rect2(32,0,tile_size,tile_size),
-		"health": 100,
+		"max_health": 100,
 		"attack": 7,
-		"crit": 1
+		"crit": 2
 	},
 	"mantis": {
 		"rect": Rect2(256,0,tile_size,tile_size),
-		"health": 50,
+		"max_health": 50,
 		"attack": 3,
 		"crit": 1
 	},
 	"firebeetle": {
 		"rect": Rect2(352,0,tile_size,tile_size),
-		"health": 110,
+		"max_health": 110,
 		"attack": 8,
-		"crit": 1
+		"crit": 2
 	},
 	"kinglobster": {
 		"rect": Rect2(384,0,tile_size,tile_size),
-		"health": 120,
+		"max_health": 120,
 		"attack": 9,
-		"crit": 1
+		"crit": 3
 	},
 	"roach": {
 		"rect": Rect2(0,0,tile_size,tile_size),
-		"health": 30,
+		"max_health": 30,
 		"attack": 2,
 		"crit": 1
 	}
@@ -92,11 +93,17 @@ func _ready():
 	sounds = {
 		"coin": create_audio_player("res://assets/sounds/coin.wav"),
 		"bump": create_audio_player("res://assets/sounds/bump.wav"),
-		"walk": create_audio_player("res://assets/sounds/walk.wav")
+		"walk": create_audio_player("res://assets/sounds/walk.wav"),
+		"combat": create_audio_player("res://assets/sounds/combat.wav"),
+		"death": create_audio_player("res://assets/sounds/death.wav"),
+		"warp": create_audio_player("res://assets/sounds/warp.wav"),
+		"pickup": create_audio_player("res://assets/sounds/pickup.wav"),
+		"background_music": create_audio_player("res://assets/ExitExitProper.mp3")
 	}
 
-	connect("update_player_score", handle_update_player_score)
+	connect("update_player", handle_update_player)
 	connect("play_music", handle_play_music)
+	connect("player_died", handle_player_died)
 
 func create_audio_player(path):
 	var music_player = AudioStreamPlayer.new()
@@ -106,11 +113,16 @@ func create_audio_player(path):
 	add_child(music_player)
 	return music_player
 	
-func handle_update_player_score(value):
-	player.emit_signal("add_to_player_score", value)
+func handle_update_player(data):
+	player.emit_signal("add_score", data.score)
+	if data.keys().has("exp") and not data.exp == 0:
+		player.emit_signal("add_experience", data.exp)
 
 func handle_play_music(path):
 	sounds[path].play()
+
+func handle_player_died():
+	get_tree().reload_current_scene()
 
 func _get_floor_tiles(tilemap):
 	if map_floor_tiles.size() > 0:
@@ -127,49 +139,36 @@ func _get_floor_tiles(tilemap):
 	
 	return map_floor_tiles
 
-#func spawn(scene, tilemap, item):
-#	pass
-
 func spawn_player(scene, tilemap):
-	map_floor_tiles = _get_floor_tiles(tilemap)
-	var rand_generate = RandomNumberGenerator.new()
-	rand_generate.randomize()
+	player = load("res://scenes/player.tscn").instantiate()
+	map_floor_tiles.clear()
 	
-	var random_floor_tile = rand_generate.randi_range(0,map_floor_tiles.size()-1)		
+	map_floor_tiles = _get_floor_tiles(tilemap)
+	
+	var random_floor_tile = randi()  % map_floor_tiles.size()
 	player.position = player.position.snapped(Vector2(tile_size, tile_size))
 	player.position = tilemap.map_to_local(map_floor_tiles[random_floor_tile])
 	map_floor_tiles.remove_at(random_floor_tile)
 	scene.add_child(player)
-	
-	print("PLAYER ID: ", player)
-	return player
-	
-func spawn_coins(scene, tilemap, num_coins):
-	map_floor_tiles = _get_floor_tiles(tilemap)
-	var coin_scene = load("res://scenes/coin.tscn")
-	var rand_generate = RandomNumberGenerator.new()
-	rand_generate.randomize()
-	
-	for _c in range(num_coins):
-		var random_floor_tile = rand_generate.randi_range(0,map_floor_tiles.size()-1)
-		var coin = coin_scene.instantiate()
-		coin.position = coin.position.snapped(Vector2(tile_size, tile_size))
-		coin.position = tilemap.map_to_local(map_floor_tiles[random_floor_tile])
-		map_floor_tiles.remove_at(random_floor_tile)
-		scene.add_child(coin)
 
-func spawn_enemies(scene, tilemap, num_enemies):
+	return player
+
+func spawn(in_scene, scene_path, tilemap, num, container_node_name=null):
 	map_floor_tiles = _get_floor_tiles(tilemap)
-	var enemy_scene = load("res://scenes/enemy.tscn")
-	var rand_generate = RandomNumberGenerator.new()
-	rand_generate.randomize()
+	var spawn_scene = load(scene_path)
 	
-	for _e in range(num_enemies):
-		var random_floor_tile = rand_generate.randi_range(0,map_floor_tiles.size()-1)
-		var enemy = enemy_scene.instantiate()
-		var enemies_container = scene.get_node("Enemies")
-		
-		enemy.position = enemy.position.snapped(Vector2(tile_size, tile_size))
-		enemy.position = tilemap.map_to_local(map_floor_tiles[random_floor_tile])
+	var spawn_on_node
+	if not container_node_name==null:
+		spawn_on_node = in_scene.get_node(container_node_name)
+	
+	for _c in range(num):
+		var random_floor_tile = randi() % map_floor_tiles.size()
+		var spawned = spawn_scene.instantiate()
+		spawned.position = spawned.position.snapped(Vector2(tile_size, tile_size))
+		spawned.position = tilemap.map_to_local(map_floor_tiles[random_floor_tile])
 		map_floor_tiles.remove_at(random_floor_tile)
-		enemies_container.add_child(enemy)
+		
+		if spawn_on_node:
+			spawn_on_node.add_child(spawned)
+		else:
+			in_scene.add_child(spawned)

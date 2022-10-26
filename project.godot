@@ -23,7 +23,11 @@ Global="*res://Global.gd"
 
 [display]
 
+window/size/viewport_width=1200
+window/size/viewport_height=800
 window/size/resizable=false
+window/size/window_width_override=1200
+window/size/window_height_override=800
 
 [filesystem]
 

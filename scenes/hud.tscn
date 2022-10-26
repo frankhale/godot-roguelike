@@ -8,10 +8,9 @@ z_index = 2000
 script = ExtResource("1_kmhfi")
 
 [node name="Panel" type="Panel" parent="."]
-offset_left = -32.0
-offset_top = -32.0
-offset_right = 1184.0
-offset_bottom = 30.0
+offset_top = 96.0
+offset_right = 1218.0
+offset_bottom = 158.0
 grow_horizontal = 2
 grow_vertical = 2
 

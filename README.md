@@ -4,12 +4,17 @@ Learning Godot by recreating my C++/Lua/SDL2 based roguelike
 
 ## Status
 
-Grid based movement is implemented
-Enemy spawning is implemented
-Enemy movement is implemented
-Coin spawning is implemented
-Coin pickup is implemented
-Score is implemented
+[x] - Grid based movement  
+[x] - Enemy spawning  
+[x] - Enemy movement  
+[x] - Item spawning  
+[x] - Item pickup  
+[x] - Score  
+[x] - Enemy attack
+[x] - Player attack
+[] - Title screen
+[] - Win state
+[x] - death state (currently just restarts scene)
 
 ## Assets
 
@@ -24,4 +29,4 @@ Frank Hale
 
 ## Updated Date
 
-21 October 2022
+25 October 2022

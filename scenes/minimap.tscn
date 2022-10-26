@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://cydf0kht0008t"]
+
+[ext_resource type="Script" path="res://scenes/minimap.gd" id="1_n4eox"]
+
+[node name="Minimap" type="Node2D"]
+z_index = 1111
+
+[node name="Panel" type="Panel" parent="."]
+offset_right = 224.0
+offset_bottom = 192.0
+script = ExtResource("1_n4eox")
