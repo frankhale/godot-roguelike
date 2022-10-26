@@ -15,7 +15,7 @@ Learning Godot by recreating my C++/Lua/SDL2 based roguelike
 - [ ] Title screen
 - [ ] Win state
 - [x] death state (currently just restarts scene)
-- [ ] minim
+- [x] minimap
 
 ## Assets
 
@@ -30,4 +30,4 @@ Frank Hale
 
 ## Updated Date
 
-25 October 2022
+26 October 2022
