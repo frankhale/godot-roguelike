@@ -49,4 +49,4 @@ shape = SubResource("RectangleShape2D_x72du")
 [node name="HealthBar" parent="." instance=ExtResource("4_dxn2f")]
 
 [node name="Minimap" parent="." instance=ExtResource("5_w6f3f")]
-position = Vector2(320, 160)
+position = Vector2(448, 256)

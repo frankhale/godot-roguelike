@@ -3,10 +3,36 @@
 [ext_resource type="Script" path="res://scenes/minimap.gd" id="1_n4eox"]
 
 [node name="Minimap" type="Node2D"]
-scale = Vector2(4, 4)
 z_index = 1111
 
 [node name="Panel" type="Panel" parent="."]
-offset_right = 64.0
-offset_bottom = 56.0
+clip_contents = true
+offset_left = -64.0
+offset_top = -32.0
+offset_right = 128.0
+offset_bottom = 128.0
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Panel"]
+clip_contents = true
+offset_right = 200.0
+offset_bottom = 200.0
+
+[node name="SubViewport" type="SubViewport" parent="Panel/SubViewportContainer"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(200, 200)
+size_2d_override_stretch = true
+render_target_update_mode = 4
+
+[node name="Camera2D" type="Camera2D" parent="Panel/SubViewportContainer/SubViewport"]
+anchor_mode = 0
+current = true
+zoom = Vector2(4, 4)
+position_smoothing_enabled = true
+
+[node name="Control" type="Control" parent="Panel/SubViewportContainer/SubViewport"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 125.0
+offset_bottom = 125.0
 script = ExtResource("1_n4eox")

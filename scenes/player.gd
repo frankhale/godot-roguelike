@@ -5,7 +5,7 @@ signal add_experience(value)
 signal take_damage(damage)
 signal increase_health(value)
 
-@onready var minimap := $Minimap/Panel
+@onready var minimap := $Minimap/Panel/SubViewportContainer/SubViewport/Control
 @onready var healthbar := $HealthBar
 @onready var camera := $Camera2D
 @onready var ray := $RayCast2D
