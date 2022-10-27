@@ -66,6 +66,7 @@ func _process(_delta):
 	if stats.health == 0:
 		Global.player.emit_signal("increase_health", stats.attack * 3)
 		Global.player.emit_signal("add_score", 25 * stats.attack)
+		# proc a chance to spawn a treasure chest
 		queue_free()
 
 func move():

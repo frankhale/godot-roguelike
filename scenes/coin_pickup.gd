@@ -4,10 +4,7 @@ extends Area2D
 
 func _on_body_entered(body):
 	if body.name == "Player":
-		var data = {
-			"score": coin_value
-		}
-		Global.emit_signal("update_player", data)
+		Global.player.emit_signal("add_score", coin_value)
 		Global.emit_signal("play_music", "coin")
 		queue_free()
 

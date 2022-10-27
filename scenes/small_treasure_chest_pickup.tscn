@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://ca67dx31as6wf"]
+
+[ext_resource type="Texture2D" uid="uid://d0xm4bkmqhuop" path="res://assets/roguely-x-export.png" id="1_fyrtr"]
+[ext_resource type="Script" path="res://scenes/small_treasure_chest_pickup.gd" id="1_tnkbl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p2c7b"]
+size = Vector2(23.5, 24.5)
+
+[node name="SmallTreasureChest" type="Area2D"]
+script = ExtResource("1_tnkbl")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_fyrtr")
+region_enabled = true
+region_rect = Rect2(448, 64, 32, 32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.25, -0.75)
+shape = SubResource("RectangleShape2D_p2c7b")

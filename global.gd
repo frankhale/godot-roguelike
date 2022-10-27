@@ -1,6 +1,5 @@
 extends Node
 
-signal update_player(score, exp)
 signal play_music(path)
 signal player_died()
 
@@ -101,7 +100,6 @@ func _ready():
 		"background_music": create_audio_player("res://assets/ExitExitProper.mp3")
 	}
 
-	connect("update_player", handle_update_player)
 	connect("play_music", handle_play_music)
 	connect("player_died", handle_player_died)
 
@@ -112,11 +110,6 @@ func create_audio_player(path):
 	music_player.volume_db = linear_to_db(0.2)
 	add_child(music_player)
 	return music_player
-	
-func handle_update_player(data):
-	player.emit_signal("add_score", data.score)
-	if data.keys().has("exp") and not data.exp == 0:
-		player.emit_signal("add_experience", data.exp)
 
 func handle_play_music(path):
 	sounds[path].play()

@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://d0xm4bkmqhuop" path="res://assets/roguely-x-export.png" id="2_8qln8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_86jp8"]
-size = Vector2(21, 21)
+size = Vector2(21, 22.5)
 
 [node name="Coin" type="Area2D"]
 script = ExtResource("1_0lxql")
@@ -15,6 +15,7 @@ region_enabled = true
 region_rect = Rect2(384, 64, 32, 32)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -2)
 shape = SubResource("RectangleShape2D_86jp8")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
