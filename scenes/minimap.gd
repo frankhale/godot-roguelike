@@ -33,10 +33,20 @@ func _draw():
 	for tile in all_tiles:
 		var color
 		
-		if tilemap.get_cell_atlas_coords(0, tile) == Vector2i(10,4):
+		var tile_coords = tilemap.get_cell_atlas_coords(0, tile)
+		
+		if tile_coords == Vector2i(10,4):
 			color = Color.BLACK
-		elif tilemap.get_cell_atlas_coords(0, tile) == Vector2i(1,6):
+		elif tile_coords == Vector2i(1,6):
 			color = Color.from_string("0054a6", Color.BLUE)
+		elif (tile_coords == Vector2i(3,6) or
+		tile_coords == Vector2i(4,6) or
+		tile_coords == Vector2i(5,6) or
+		tile_coords == Vector2i(6,6) or
+		tile_coords == Vector2i(7,6)):
+			color = Color.DARK_GREEN
+		elif tile_coords == Vector2i(2,6):
+			color = Color.SANDY_BROWN
 		else:
 			color = Color.WHITE
 

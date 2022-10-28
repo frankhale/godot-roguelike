@@ -1,5 +1,6 @@
 extends Node
 
+signal enemy_died(scene, tilemap, position)
 signal play_music(path)
 signal player_died()
 
@@ -102,6 +103,7 @@ func _ready():
 
 	connect("play_music", handle_play_music)
 	connect("player_died", handle_player_died)
+	connect("enemy_died", handle_enemy_died)
 
 func create_audio_player(path):
 	var music_player = AudioStreamPlayer.new()
@@ -116,6 +118,13 @@ func handle_play_music(path):
 
 func handle_player_died():
 	get_tree().reload_current_scene()
+
+func handle_enemy_died(scene, tilemap, position):
+	var proc_chance = randi() % 10
+	if proc_chance <= 2:
+		spawn(scene, "res://scenes/large_treasure_chest_pickup.tscn", tilemap, 1, null, position)
+	elif proc_chance >= 6:
+		spawn(scene, "res://scenes/small_treasure_chest_pickup.tscn", tilemap, 1, null, position)
 
 func _get_floor_tiles(tilemap):
 	if map_floor_tiles.size() > 0:
@@ -146,7 +155,7 @@ func spawn_player(scene, tilemap):
 
 	return player
 
-func spawn(in_scene, scene_path, tilemap, num, container_node_name=null):
+func spawn(in_scene, scene_path, tilemap, num, container_node_name=null, position=null):
 	map_floor_tiles = _get_floor_tiles(tilemap)
 	var spawn_scene = load(scene_path)
 	
@@ -155,11 +164,14 @@ func spawn(in_scene, scene_path, tilemap, num, container_node_name=null):
 		spawn_on_node = in_scene.get_node(container_node_name)
 	
 	for _c in range(num):
-		var random_floor_tile = randi() % map_floor_tiles.size()
 		var spawned = spawn_scene.instantiate()
-		spawned.position = spawned.position.snapped(Vector2(tile_size, tile_size))
-		spawned.position = tilemap.map_to_local(map_floor_tiles[random_floor_tile])
-		map_floor_tiles.remove_at(random_floor_tile)
+		
+		if position == null:
+			var random_floor_tile = randi() % map_floor_tiles.size()
+			spawned.position = tilemap.map_to_local(map_floor_tiles[random_floor_tile])
+			map_floor_tiles.remove_at(random_floor_tile)
+		else:
+			spawned.position = position
 		
 		if spawn_on_node:
 			spawn_on_node.add_child(spawned)

@@ -17,17 +17,21 @@ signal increase_health(value)
 	Vector2i(3,4)
 ]
 
+var floating_text = preload("res://scenes/floating_text.tscn")
 var win := false
 var health_regen_timer
 var current_scene
 var player_score := 0
 var stats := {
-	"health": 100,
-	"max_health": 100,
-	"attack": 2,
-	"crit": 1,
+	"health": 1000000,
+	"max_health": 1000000,
+	"attack": 8,
+	"crit": 8,
 	"level": 1,
 	"experience": 0
+}
+var inventory := {
+	"keys": 0,
 }
 const inputs := {
 	"ui_right": Vector2.RIGHT,
@@ -58,15 +62,29 @@ func handle_increase_health(value):
 	stats.health += value
 	stats.health = clamp(stats.health, 0, stats.max_health)
 	healthbar.set_value(stats.health)
+	var text = floating_text.instantiate()
+	text.amount = value
+	text.type = text.types.GOOD
+	add_child(text)
 
 func handle_take_damage(damage):
 	stats.health -= damage
 	stats.health = clamp(stats.health, 0, stats.max_health)
 	healthbar.set_value(stats.health)
+	var text = floating_text.instantiate()
+	text.amount = damage
+	text.type = text.types.BAD
+	add_child(text)
 
 func _handle_add_to_player_score(value):
 	player_score += value
 	hud.emit_signal("update_score_label", player_score)
+	
+	if value != 0:
+		var text = floating_text.instantiate()
+		text.amount = value
+		text.type = text.types.GOOD
+		add_child(text)
 
 func _input(event):
 	for dir in inputs.keys():
@@ -110,17 +128,22 @@ func handle_health_regen():
 		stats.health += 10
 		stats.health = clamp(stats.health, 0, stats.max_health)
 		healthbar.set_value(stats.health)
+		var text = floating_text.instantiate()
+		text.amount = 10
+		text.type = text.types.GOOD
+		add_child(text)
 
 func handle_enemy_movement():
-	var enemies_node = current_scene.get_node("Enemies")
-	var enemies = enemies_node.get_children()
-	
-	if enemies.size() > 0:
-		enemies.shuffle()
-		for e in enemies.slice(0, enemies.size()/2.5):
-			e.move()
-
-		Global.enemy_moves.clear()
+	pass
+#	var enemies_node = current_scene.get_node("Enemies")
+#	var enemies = enemies_node.get_children()
+#
+#	if enemies.size() > 0:
+#		enemies.shuffle()
+#		for e in enemies.slice(0, enemies.size()/2.5):
+#			e.move()
+#
+#		Global.enemy_moves.clear()
 
 func _process(_delta):
 	if stats.health == 0:

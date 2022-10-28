@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3 uid="uid://cuqo00q2ajlpm"]
+
+[ext_resource type="FontFile" uid="uid://kp2myh7g2dkw" path="res://assets/NESCyrillic.ttf" id="1_mdkgh"]
+[ext_resource type="Script" path="res://scenes/floating_text.gd" id="1_xpydr"]
+
+[node name="FloatingText" type="Marker2D"]
+scale = Vector2(0.7, 0.7)
+z_index = 200
+script = ExtResource("1_xpydr")
+
+[node name="Label" type="Label" parent="."]
+custom_minimum_size = Vector2(100, 25)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -38.5714
+offset_right = 50.0
+offset_bottom = -13.5714
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.984314, 0.12549, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("1_mdkgh")
+theme_override_font_sizes/font_size = 24
+text = "200"
+horizontal_alignment = 1
+vertical_alignment = 1
