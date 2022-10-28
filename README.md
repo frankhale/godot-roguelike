@@ -1,6 +1,7 @@
 # godot-roguelike
 
-Learning Godot by recreating my C++/Lua/SDL2 based roguelike
+Learning Godot by recreating my C++/Lua/SDL2 based roguelike. This is a Godot 4
+project.
 
 ## Status
 
@@ -16,6 +17,7 @@ Learning Godot by recreating my C++/Lua/SDL2 based roguelike
 - [ ] Win state
 - [x] death state (currently just restarts scene)
 - [x] minimap
+- [x] combat / health regen / score text after combat or picking up loot
 
 ## Assets
 
@@ -30,4 +32,4 @@ Frank Hale
 
 ## Updated Date
 
-26 October 2022
+27 October 2022

@@ -19,7 +19,7 @@ func _ready():
 	label.set_text(str(amount))
 
 	randomize()
-	var side_movement = randi() % 81 - 40
+	var side_movement = randi() % 120 - 60
 	velocity = Vector2(side_movement, 25)
 
 	var tween = create_tween()
