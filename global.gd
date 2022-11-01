@@ -5,11 +5,20 @@ signal play_music(path)
 signal player_died()
 
 const tile_size := 32
-var player : CharacterBody2D
+const spawnable_locations = [ 
+	Vector2i(10, 4),
+	Vector2i(2, 6),
+	Vector2i(3, 6),
+	Vector2i(4, 6),
+	Vector2i(5, 6),
+	Vector2i(6, 6),
+	Vector2i(7, 6)
+]
 
-var sounds := {}
-var map_floor_tiles := []
-var enemy_moves := []
+var player : CharacterBody2D
+var sounds := Dictionary()
+var map_floor_tiles := Array()
+var enemy_moves := Array()
 const enemy_data := {
 	"spider": {
 		"rect": Rect2(160,0,tile_size,tile_size),
@@ -130,26 +139,29 @@ func _get_floor_tiles(tilemap):
 	if map_floor_tiles.size() > 0:
 		return map_floor_tiles
 	
-	var floor_tiles = [ 
-		Vector2i(10, 4) 
-	]	
 	var used_tiles = tilemap.get_used_cells(0)
 
 	for tile in used_tiles:
-		if floor_tiles.has(tilemap.get_cell_atlas_coords(0, tile)):
+		if spawnable_locations.has(tilemap.get_cell_atlas_coords(0, tile)):
 			map_floor_tiles.push_back(tile)
 	
 	return map_floor_tiles
 
-func spawn_player(scene, tilemap):
+func spawn_player(scene, tilemap, position=null):
 	player = load("res://scenes/player.tscn").instantiate()
 	map_floor_tiles.clear()
 	
 	map_floor_tiles = _get_floor_tiles(tilemap)
 	
 	var random_floor_tile = randi()  % map_floor_tiles.size()
-	player.position = player.position.snapped(Vector2(tile_size, tile_size))
-	player.position = tilemap.map_to_local(map_floor_tiles[random_floor_tile])
+
+	#player.position = player.position.snapped(Vector2(tile_size, tile_size))
+
+	if position == null:
+		player.position = tilemap.map_to_local(map_floor_tiles[random_floor_tile])
+	else:
+		player.position = position
+
 	map_floor_tiles.remove_at(random_floor_tile)
 	scene.add_child(player)
 

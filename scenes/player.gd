@@ -5,6 +5,7 @@ signal add_experience(value)
 signal take_damage(damage)
 signal increase_health(value)
 
+@onready var current_scene = get_tree().get_current_scene()
 @onready var minimap := $Minimap/Panel/SubViewportContainer/SubViewport/Control
 @onready var healthbar := $HealthBar
 @onready var camera := $Camera2D
@@ -19,8 +20,7 @@ signal increase_health(value)
 
 var floating_text = preload("res://scenes/floating_text.tscn")
 var win := false
-var health_regen_timer
-var current_scene
+var health_regen_timer= Timer.new()
 var player_score := 0
 var stats := {
 	"health": 1000000,
@@ -41,8 +41,6 @@ const inputs := {
 }
 
 func _ready():
-	current_scene = get_tree().get_current_scene()
-	
 	connect("take_damage", handle_take_damage)
 	connect("add_score", _handle_add_to_player_score)
 	connect("increase_health", handle_increase_health)
@@ -51,8 +49,7 @@ func _ready():
 	
 	healthbar.set_max_value(stats.max_health)
 	healthbar.set_value(stats.health)
-	
-	health_regen_timer = Timer.new()
+		
 	health_regen_timer.wait_time = 5
 	health_regen_timer.connect("timeout", handle_health_regen)
 	add_child(health_regen_timer)
@@ -134,16 +131,15 @@ func handle_health_regen():
 		add_child(text)
 
 func handle_enemy_movement():
-	pass
-#	var enemies_node = current_scene.get_node("Enemies")
-#	var enemies = enemies_node.get_children()
-#
-#	if enemies.size() > 0:
-#		enemies.shuffle()
-#		for e in enemies.slice(0, enemies.size()/2.5):
-#			e.move()
-#
-#		Global.enemy_moves.clear()
+	var enemies_node = current_scene.get_node("Enemies")
+	var enemies = enemies_node.get_children()
+
+	if enemies.size() > 0:
+		enemies.shuffle()
+		for e in enemies.slice(0, enemies.size()/3):
+			e.move()
+
+		Global.enemy_moves.clear()
 
 func _process(_delta):
 	if stats.health == 0:

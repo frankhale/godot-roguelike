@@ -5,19 +5,24 @@ project.
 
 ## Status
 
-- [x] Grid based movement  
-- [x] Enemy spawning  
-- [x] Enemy movement  
-- [x] Item spawning  
-- [x] Item pickup  
-- [x] Score  
-- [x] Enemy attack
-- [x] Player attack
-- [ ] Title screen
-- [ ] Win state
+- [x] grid based movement  
+- [x] enemy spawning  
+- [x] enemy movement  
+- [x] item spawning  
+- [x] item pickup  
+- [x] score  
+- [x] enemy attack
+- [x] player attack
+- [x] title screen
 - [x] death state (currently just restarts scene)
 - [x] minimap
 - [x] combat / health regen / score text after combat or picking up loot
+- [] additional levels
+- [] level transitions (ladder)
+- [] Locked doors that are unlocked via keys
+- [] player leveling system
+- [] enemy leveling
+- [] win state
 
 ## Assets
 
@@ -32,4 +37,4 @@ Frank Hale
 
 ## Updated Date
 
-27 October 2022
+31 October 2022

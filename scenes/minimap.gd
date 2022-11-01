@@ -5,8 +5,8 @@ signal update_player_position(Vector2)
 @onready var tilemap : TileMap = get_tree().get_current_scene().get_node("TileMap")
 @onready var camera : Camera2D = get_parent().get_node("Camera2D")
 
-var all_tiles
-var player
+var all_tiles := Array()
+var player_position = Vector2i()
 var x_offset = 15
 var y_offset = 10
 
@@ -14,20 +14,20 @@ func _ready():
 	connect("update_player_position", handle_update_player_position)
 	
 	all_tiles = tilemap.get_used_cells(0)
-	player = tilemap.local_to_map(Global.player.position)
-	camera.offset = Vector2(player.x, player.y)
+	player_position = tilemap.local_to_map(Global.player.position)
+	camera.offset = Vector2(player_position.x, player_position.y)
 	
 func get_surrounding_tiles(offset):
-	var starting_point = Vector2(player.x-offset, player.y-offset)
-	var ending_point = Vector2(player.x+offset, player.y+offset)
+	var starting_point = Vector2(player_position.x-offset, player_position.y-offset)
+	var ending_point = Vector2(player_position.x+offset, player_position.y+offset)
 
 	return all_tiles.filter(func(tile): return (tile.x >= starting_point.x and tile.y >= starting_point.y) and (tile.x <= ending_point.x and tile.y <= ending_point.y))	
 
-func handle_update_player_position(player_position):
-	player = tilemap.local_to_map(player_position)
+func handle_update_player_position(pos):
+	player_position = tilemap.local_to_map(pos)
 	
 	queue_redraw()
-	camera.offset = Vector2(player.x, player.y)
+	camera.offset = Vector2(player_position.x, player_position.y)
 
 func _draw():
 	for tile in all_tiles:
@@ -51,4 +51,4 @@ func _draw():
 			color = Color.WHITE
 
 		draw_rect(Rect2(tile.x + x_offset, tile.y + y_offset, 1, 1), color)
-		draw_rect(Rect2(player.x + x_offset, player.y + y_offset, 1, 1), Color.RED)
+		draw_rect(Rect2(player_position.x + x_offset, player_position.y + y_offset, 1, 1), Color.RED)

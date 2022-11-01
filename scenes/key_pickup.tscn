@@ -1,18 +1,18 @@
-[gd_scene load_steps=3 format=3 uid="uid://x6npk0p7llvo"]
+[gd_scene load_steps=4 format=3 uid="uid://x6npk0p7llvo"]
 
+[ext_resource type="Script" path="res://scenes/key_pickup.gd" id="1_fxjam"]
 [ext_resource type="Texture2D" uid="uid://d0xm4bkmqhuop" path="res://assets/roguely-x-export.png" id="1_vvsqo"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4emky"]
 size = Vector2(31, 31)
 
-[node name="Key" type="Node2D"]
+[node name="KeyPickup" type="Area2D"]
+script = ExtResource("1_fxjam")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_vvsqo")
 region_enabled = true
 region_rect = Rect2(256, 256, 32, 32)
 
-[node name="Area2D" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_4emky")

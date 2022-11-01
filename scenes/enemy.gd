@@ -11,8 +11,8 @@ signal attack_player()
 
 var floating_text = preload("res://scenes/floating_text.tscn")
 var enemy_type_name := "enemy"
-var stats : Dictionary
-var attack_timer : Timer
+var stats := Dictionary()
+var attack_timer := Timer.new()
 const directions := [
 	Vector2.RIGHT,
 	Vector2.LEFT,
@@ -24,7 +24,6 @@ func _ready():
 	connect("take_damage", handle_take_damage)
 	connect("attack_player", handle_attack)
 
-	attack_timer = Timer.new()
 	attack_timer.wait_time = 1
 	attack_timer.connect("timeout", handle_attack)
 	add_child(attack_timer)
@@ -36,8 +35,6 @@ func _ready():
 	stats.health = stats.max_health
 	healthbar.set_max_value(stats.max_health)
 	healthbar.set_value(stats.health)
-	
-	#print("INIT: ENEMY POS - ", position)
 
 func set_enemy_type(enemy_name):
 	var enemy_key = enemy_type_name
@@ -94,7 +91,7 @@ func move():
 #			var collider = ray.get_collider()
 #			print("ENEMY COLLIDED WITH: ", collider)
 
-func _on_area_2d_body_entered(body):	
+func _on_area_2d_body_entered(body):
 	if Global.player == body:
 		attack_timer.start()
 		
