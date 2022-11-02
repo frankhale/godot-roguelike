@@ -87,6 +87,11 @@ func move():
 	
 		if not ray.is_colliding():
 			move_and_collide(directions[dir] * Global.tile_size)
+			
+			if sprite.scale == Vector2(1,1):
+				var tween = create_tween()
+				tween.tween_property(sprite, "scale", Vector2(0.4, 0.4), 0.3).as_relative().set_ease(Tween.EASE_OUT)
+				tween.tween_property(sprite, "scale", Vector2(-0.4, -0.4), 0.2).as_relative().set_ease(Tween.EASE_IN)
 #		else:
 #			var collider = ray.get_collider()
 #			print("ENEMY COLLIDED WITH: ", collider)

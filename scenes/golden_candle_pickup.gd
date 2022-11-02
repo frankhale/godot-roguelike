@@ -5,5 +5,6 @@ extends Area2D
 func _on_body_entered(body):
 	if body.name == "Player":
 		Global.player.emit_signal("add_score", golden_candle_value)
+		Global.player.emit_signal("add_golden_candle")
 		Global.emit_signal("play_music", "pickup")
 		queue_free()

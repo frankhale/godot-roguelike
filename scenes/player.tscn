@@ -31,7 +31,7 @@ hit_from_inside = true
 z_index = 10
 texture = ExtResource("1_a1kqk")
 region_enabled = true
-region_rect = Rect2(478, 0, 32, 32)
+region_rect = Rect2(484, 4, 20, 24)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true

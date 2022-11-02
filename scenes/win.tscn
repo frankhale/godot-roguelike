@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://4sdl8lqgin2b"]
+
+[ext_resource type="FontFile" uid="uid://kp2myh7g2dkw" path="res://assets/NESCyrillic.ttf" id="1_04lws"]
+[ext_resource type="Script" path="res://scenes/win.gd" id="1_sx0su"]
+
+[node name="Win" type="Node2D"]
+script = ExtResource("1_sx0su")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 448.0
+offset_top = 352.0
+offset_right = 760.0
+offset_bottom = 408.0
+theme_override_fonts/font = ExtResource("1_04lws")
+theme_override_font_sizes/font_size = 72
+text = "YOU WIN!!!"
+
+[node name="Score" type="Label" parent="."]
+offset_left = 512.0
+offset_top = 480.0
+offset_right = 608.0
+offset_bottom = 507.0
+theme_override_fonts/font = ExtResource("1_04lws")
+theme_override_font_sizes/font_size = 32
+text = "Score: "

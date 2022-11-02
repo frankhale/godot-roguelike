@@ -17,12 +17,12 @@ project.
 - [x] death state (currently just restarts scene)
 - [x] minimap
 - [x] combat / health regen / score text after combat or picking up loot
+- [x] Locked doors that are unlocked via keys
+- [x] win state
 - [] additional levels
 - [] level transitions (ladder)
-- [] Locked doors that are unlocked via keys
 - [] player leveling system
-- [] enemy leveling
-- [] win state
+- [] procedural level generation
 
 ## Assets
 
@@ -37,4 +37,4 @@ Frank Hale
 
 ## Updated Date
 
-31 October 2022
+2 November 2022

@@ -1,5 +1,6 @@
 extends Node
 
+signal win()
 signal enemy_died(scene, tilemap, position)
 signal play_music(path)
 signal player_died()
@@ -14,6 +15,8 @@ const spawnable_locations = [
 	Vector2i(6, 6),
 	Vector2i(7, 6)
 ]
+
+var win_scene = load("res://scenes/win.tscn")
 
 var player : CharacterBody2D
 var sounds := Dictionary()
@@ -100,35 +103,42 @@ const item_type := {
 
 func _ready():
 	sounds = {
-		"coin": create_audio_player("res://assets/sounds/coin.wav"),
+		"coin": create_audio_player("res://assets/sounds/coin.wav", .5),
 		"bump": create_audio_player("res://assets/sounds/bump.wav"),
 		"walk": create_audio_player("res://assets/sounds/walk.wav"),
 		"combat": create_audio_player("res://assets/sounds/combat.wav"),
 		"death": create_audio_player("res://assets/sounds/death.wav"),
 		"warp": create_audio_player("res://assets/sounds/warp.wav"),
 		"pickup": create_audio_player("res://assets/sounds/pickup.wav"),
-		"background_music": create_audio_player("res://assets/ExitExitProper.mp3")
+		"background_music": create_audio_player("res://assets/ExitExitProper.mp3", 0.1)
 	}
 
-	connect("play_music", handle_play_music)
-	connect("player_died", handle_player_died)
-	connect("enemy_died", handle_enemy_died)
+	connect("win", _handle_win)
+	connect("play_music", _handle_play_music)
+	connect("player_died", _handle_player_died)
+	connect("enemy_died", _handle_enemy_died)
 
-func create_audio_player(path):
+func _handle_win():
+	var w = win_scene.instantiate()
+	get_tree().get_root().add_child(w)
+	w.emit_signal("set_final_score", player.score)
+	get_node("/root/Level1").free()
+
+func create_audio_player(path, volume=0.3):
 	var music_player = AudioStreamPlayer.new()
 	music_player.stream = load(path)
 	music_player.set_max_polyphony(10)
-	music_player.volume_db = linear_to_db(0.2)
+	music_player.volume_db = linear_to_db(volume)
 	add_child(music_player)
 	return music_player
 
-func handle_play_music(path):
+func _handle_play_music(path):
 	sounds[path].play()
 
-func handle_player_died():
+func _handle_player_died():
 	get_tree().reload_current_scene()
 
-func handle_enemy_died(scene, tilemap, position):
+func _handle_enemy_died(scene, tilemap, position):
 	var proc_chance = randi() % 10
 	if proc_chance <= 2:
 		spawn(scene, "res://scenes/large_treasure_chest_pickup.tscn", tilemap, 1, null, position)
