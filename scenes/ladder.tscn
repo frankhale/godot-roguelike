@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://70dafjf3gesi"]
+
+[ext_resource type="Texture2D" uid="uid://d0xm4bkmqhuop" path="res://assets/roguely-x-export.png" id="1_c13hc"]
+[ext_resource type="Script" path="res://scenes/ladder.gd" id="1_pnveq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hlra0"]
+
+[node name="Ladder" type="Area2D"]
+script = ExtResource("1_pnveq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_hlra0")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_c13hc")
+region_enabled = true
+region_rect = Rect2(352, 128, 32, 32)
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

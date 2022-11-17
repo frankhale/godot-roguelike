@@ -178,12 +178,13 @@ func spawn_player(scene, tilemap, position=null):
 	return player
 
 func spawn(in_scene, scene_path, tilemap, num, container_node_name=null, position=null):
+	var results = []
 	map_floor_tiles = _get_floor_tiles(tilemap)
 	var spawn_scene = load(scene_path)
 	
 	var spawn_on_node
 	if not container_node_name==null:
-		spawn_on_node = in_scene.get_node(container_node_name)
+		spawn_on_node = in_scene.get_node(container_node_name)		
 	
 	for _c in range(num):
 		var spawned = spawn_scene.instantiate()
@@ -199,3 +200,7 @@ func spawn(in_scene, scene_path, tilemap, num, container_node_name=null, positio
 			spawn_on_node.add_child(spawned)
 		else:
 			in_scene.add_child(spawned)
+			
+		results.push_back(spawned)
+	
+	return results
