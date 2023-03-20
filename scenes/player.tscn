@@ -34,7 +34,6 @@ region_enabled = true
 region_rect = Rect2(484, 4, 20, 24)
 
 [node name="Camera2D" type="Camera2D" parent="."]
-current = true
 limit_smoothed = true
 
 [node name="HUD" parent="." instance=ExtResource("3_104vp")]

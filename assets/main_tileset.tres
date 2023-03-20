@@ -4,8 +4,8 @@
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_kyg6k"]
 vertices = PackedVector2Array(16, 16, -16, 16, -16, -16, 16, -16)
-polygons = [PackedInt32Array(0, 1, 2, 3)]
-outlines = [PackedVector2Array(16, -16, -16, -16, -16, 16, 16, 16)]
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(16, -16, -16, -16, -16, 16, 16, 16)])
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_j1mvi"]
 resource_name = "main_tilemap_atlas"

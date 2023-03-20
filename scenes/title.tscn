@@ -25,6 +25,7 @@ text = "Created by Frank Hale
 horizontal_alignment = 1
 
 [node name="Label" type="Label" parent="Credits"]
+layout_mode = 0
 offset_left = -64.0
 offset_top = 224.0
 offset_right = 374.0
