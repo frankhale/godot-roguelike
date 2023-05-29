@@ -17,6 +17,7 @@ const spawnable_locations = [
 ]
 
 var win_scene = load("res://scenes/win.tscn")
+var spritesheet = "res://assets/roguely-x-export.png";
 
 var player : CharacterBody2D
 var sounds := Dictionary()
@@ -112,10 +113,16 @@ const enemy_data := {
 		"crit": 3
 	},
 	"roach": {
-		"rect": Rect2(0,0,tile_size,tile_size),
+		"rect": Rect2(416,0,tile_size,tile_size),
 		"max_health": 30,
 		"attack": 2,
 		"crit": 1
+	},
+	"scorpion": {
+		"rect": Rect2(448,0,tile_size,tile_size),
+		"max_health": 150,
+		"attack": 10,
+		"crit": 5
 	}
 }
 const item_type := {
@@ -160,7 +167,7 @@ func _handle_play_music(path):
 func _handle_player_died():
 	get_tree().reload_current_scene()
 
-func _handle_enemy_died(scene, tilemap, position):
+func _handle_enemy_died(scene, position):
 	var proc_chance = randi() % 10
 	var tc_data = {}
 	if proc_chance > 2 and proc_chance <= 4:
@@ -175,7 +182,7 @@ func _handle_enemy_died(scene, tilemap, position):
 	if(tc_data != {}):
 		var chest = preload("res://scenes/treasure_chest_pickup.tscn").instantiate()
 		chest.position = position
-		chest.set_data(tc_data)
+		chest.set_data(tc_data, spritesheet)
 		scene.add_child(chest)
 
 func get_tile_player_is_standing_on(tilemap):	

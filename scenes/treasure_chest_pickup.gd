@@ -6,13 +6,16 @@ extends Area2D
 @onready var sprite := $Sprite2D
 
 var tc_data = {}
+var spritesheet = ""
 
-func set_data(data):
+func set_data(data, ss):
 	tc_data = data
+	spritesheet = ss
 	health_value = tc_data.health_value
 	coin_value = tc_data.coin_value
 
 func _ready():
+	sprite.texture = load(spritesheet)
 	sprite.region_rect = tc_data.rect
 
 func _on_body_entered(body):
