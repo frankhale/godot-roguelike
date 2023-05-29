@@ -141,6 +141,8 @@ func move(dir):
 		handle_enemy_movement()
 		minimap.emit_signal("update_player_position", position)
 		moving = true
+		
+		Global.get_tile_player_is_standing_on(tilemap)
 	else:
 		var collider = ray.get_collider()
 		

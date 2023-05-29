@@ -22,6 +22,28 @@ var player : CharacterBody2D
 var sounds := Dictionary()
 var map_floor_tiles := Array()
 var enemy_moves := Array()
+const treasure_chest_data := {
+	"ordinary": {
+		"rect": Rect2(448,64,tile_size,tile_size),
+		"health_value": 25,
+		"coin_value": 50
+	},
+	"common": {
+		"rect": Rect2(480,64,tile_size,tile_size),
+		"health_value": 35,
+		"coin_value": 70
+	},
+	"ornate": {
+		"rect": Rect2(448,96,tile_size,tile_size),
+		"health_value": 50,
+		"coin_value": 90
+	},
+	"exquisite": {
+		"rect": Rect2(480,96,tile_size,tile_size),
+		"health_value": 100,
+		"coin_value": 150
+	}
+}
 const enemy_data := {
 	"spider": {
 		"rect": Rect2(160,0,tile_size,tile_size),
@@ -140,10 +162,24 @@ func _handle_player_died():
 
 func _handle_enemy_died(scene, tilemap, position):
 	var proc_chance = randi() % 10
-	if proc_chance <= 2:
-		spawn(scene, "res://scenes/large_treasure_chest_pickup.tscn", tilemap, 1, null, position)
-	elif proc_chance >= 6:
-		spawn(scene, "res://scenes/small_treasure_chest_pickup.tscn", tilemap, 1, null, position)
+	var tc_data = {}
+	if proc_chance > 2 and proc_chance <= 4:
+		tc_data = treasure_chest_data["ordinary"]
+	elif proc_chance > 4 and proc_chance <= 5:
+		tc_data = treasure_chest_data["common"]
+	elif proc_chance > 5 and proc_chance <= 8:
+		tc_data = treasure_chest_data["ornate"]
+	elif proc_chance == 10: 
+		tc_data = treasure_chest_data["exquisite"]
+	
+	if(tc_data != {}):
+		var chest = preload("res://scenes/treasure_chest_pickup.tscn").instantiate()
+		chest.position = position
+		chest.set_data(tc_data)
+		scene.add_child(chest)
+
+func get_tile_player_is_standing_on(tilemap):	
+	return tilemap.get_cell_atlas_coords(0, tilemap.local_to_map(player.position))
 
 func _get_floor_tiles(tilemap):
 	if map_floor_tiles.size() > 0:
