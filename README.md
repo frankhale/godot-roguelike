@@ -5,12 +5,12 @@ project.
 
 ## Status
 
-- [x] grid based movement  
-- [x] enemy spawning  
-- [x] enemy movement  
-- [x] item spawning  
-- [x] item pickup  
-- [x] score  
+- [x] grid based movement
+- [x] enemy spawning
+- [x] enemy movement
+- [x] item spawning
+- [x] item pickup
+- [x] score
 - [x] enemy attack
 - [x] player attack
 - [x] title screen
@@ -37,4 +37,4 @@ Frank Hale
 
 ## Updated Date
 
-2 November 2022
+28 May 2023
